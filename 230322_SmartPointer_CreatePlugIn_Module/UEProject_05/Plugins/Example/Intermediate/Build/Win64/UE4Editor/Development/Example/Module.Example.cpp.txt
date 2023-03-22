@@ -1,0 +1,9 @@
+C:\Users\YUM\Unreal Projects\UEProject_05\Plugins\Example\Intermediate\Build\Win64\UE4Editor\Development\Example\Definitions.Example.h
+C:/Users/YUM/Unreal Projects/UEProject_05/Plugins/Example/Source/Example/ExampleDebuggerCategory.cpp
+c:\users\yum\unreal projects\ueproject_05\plugins\example\source\example\ExampleDebuggerCategory.h
+C:\Program Files\Epic Games\UE_4.26\Engine\Source\Developer\GameplayDebugger\Public\GameplayDebuggerCategory.h
+c:\program files\epic games\ue_4.26\engine\source\developer\gameplaydebugger\public\GameplayDebuggerTypes.h
+c:\program files\epic games\ue_4.26\engine\source\developer\gameplaydebugger\public\GameplayDebuggerAddonBase.h
+C:/Users/YUM/Unreal Projects/UEProject_05/Plugins/Example/Source/Example/ExampleModule.cpp
+c:\users\yum\unreal projects\ueproject_05\plugins\example\source\example\ExampleModule.h
+C:\Program Files\Epic Games\UE_4.26\Engine\Source\Developer\GameplayDebugger\Public\GameplayDebugger.h
