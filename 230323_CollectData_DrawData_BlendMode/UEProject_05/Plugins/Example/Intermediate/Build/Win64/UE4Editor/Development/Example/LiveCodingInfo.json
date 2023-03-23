@@ -1,0 +1,10 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.Example.cpp.obj": [
+			"ExampleConsoleCommand.cpp.obj",
+			"ExampleDebuggerCategory.cpp.obj",
+			"ExampleModule.cpp.obj"
+		]
+	}
+}
