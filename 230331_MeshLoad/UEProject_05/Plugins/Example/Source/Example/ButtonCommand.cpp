@@ -28,7 +28,6 @@ void FButtonCommand::RegisterCommands()
 
 void FButtonCommand::OnClicked_LoadMesh()
 {
-
 	if (FApp::IsGame())
 	{
 		FMessageDialog dialog;
@@ -46,8 +45,10 @@ void FButtonCommand::OnClicked_LoadMesh()
 	IDesktopPlatform* platform = FDesktopPlatformModule::Get();
 
 	TArray<FString> fileNames;
-	platform->SaveFileDialog(handle, "Open Mesh File", path, "", "Mesh Binary File(*.bin)|*.bin", EFileDialogFlags::None, fileNames);
+	platform->OpenFileDialog(handle, "Open Mesh File", path, "", "Mesh Binary File(*.bin)|*.bin", EFileDialogFlags::None, fileNames);
 	if (fileNames.Num() < 1) return;
+
+	///////////////////////////////////////////////////////////////////////
 
 	FBufferArchive archive;
 	FFileHelper::LoadFileToArray(archive, *fileNames[0]);
@@ -79,6 +80,5 @@ void FButtonCommand::OnClicked_LoadMesh()
 	FString textSaveName = textFileName + "_Copied.csv";
 
 	FFileHelper::SaveStringToFile(text, *textSaveName);
-
-
 }            
+

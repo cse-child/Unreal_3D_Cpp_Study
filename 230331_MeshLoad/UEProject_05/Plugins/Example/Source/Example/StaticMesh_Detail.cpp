@@ -98,7 +98,7 @@ FReply FStaticMesh_Detail::OnClicked_Save()
 		meshActors.Add(meshActor);
 	}
 
-	// Message Dialog Test
+	/* Message Dialog Å×½ºÆ® */
 	//{
 	//	FText title = FText::FromString("Warning");
 	//	FText context = FText::FromString(FString::Printf(L"Selected Num : %d", meshActors.Num()));
@@ -132,9 +132,9 @@ FReply FStaticMesh_Detail::OnClicked_Save()
 		uint32 vertexCount = vb.GetNumVertices();
 		int32 indexCount = ib.GetNumIndices();
 
-		GLog->Logf(L"%d Mesh, Vertex Count : %d", i+1, vertexCount);
-		GLog->Logf(L"%d Mesh, Index Count : %d", i+1, indexCount);
-		GLog->Logf(L"%d Mesh, Triangle Count : %d", i+1, indexCount / 3);
+		//GLog->Logf(L"%d Mesh, Vertex Count : %d", i+1, vertexCount);
+		//GLog->Logf(L"%d Mesh, Index Count : %d", i+1, indexCount);
+		//GLog->Logf(L"%d Mesh, Triangle Count : %d", i+1, indexCount / 3);
 
 		FStaticMesh_DetailData data;
 
@@ -176,12 +176,14 @@ FReply FStaticMesh_Detail::OnClicked_Save()
 		data.Radius = FMath::Max(x, y);
 		data.Radius = FMath::Max(data.Radius, z);
 
-		GLog->Logf(L"x : %0.1f, y : %0.1f, z : %0.1f", x, y, z);
-		GLog->Logf(L"Radius : %f", data.Radius);
+		//GLog->Logf(L"x : %0.1f, y : %0.1f, z : %0.1f", x, y, z);
+		//GLog->Logf(L"Radius : %f", data.Radius);
 
 		TArray<uint32> indices;
 		ib.GetCopy(indices);
 		data.Indices.Insert((int32*)indices.GetData(), indexCount, 0);
+
+		///////////////////////////////////////////////////////////////////////
 
 		FString path;
 		FPaths::GetPath(path);
@@ -211,6 +213,8 @@ FReply FStaticMesh_Detail::OnClicked_Save()
 		buffer.FlushCache();
 		buffer.Empty();
 
+		///////////////////////////////////////////////////////////////////////
+
 		FString text;
 		for (int32 index = 0; index < data.Positions.Num(); index++)
 		{
@@ -223,16 +227,16 @@ FReply FStaticMesh_Detail::OnClicked_Save()
 		FString textFileName = FPaths::GetBaseFilename(fileNames[0], false);
 		FString textSaveName = textFileName + ".csv";
 
-		//GLog->Log(fileNames[0]); // .. / .. / .. / .. / .. / .. / Users / USER / Desktop / Test.bin
-		//GLog->Log(textFileName); // .. / .. / .. / .. / .. / .. / Users / USER / Desktop / Test
-		//GLog->Log(FPaths::GetCleanFilename(fileNames[0])); // Test.bin
+		//fileNames[0] : .. / .. / .. / .. / .. / .. / Users / USER / Desktop / Test.bin
+		//textFileName : .. / .. / .. / .. / .. / .. / Users / USER / Desktop / Test
+		//FPaths::GetCleanFilename(fileNames[0]) : Test.bin
 
 		FFileHelper::SaveStringToFile(text, *textSaveName);
 
 		FString str;
 		str.Append(FPaths::GetBaseFilename(fileNames[0]));
 		str.Append(" Saved.");
-		GLog->Log(str);
+		//GLog->Log(str);
 	}
 
 	return FReply::Handled();
