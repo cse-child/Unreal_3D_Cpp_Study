@@ -32,9 +32,9 @@
 /wd4244
 /wd4838
 /I .
-/I C:\Users\USER\Programming\Project\Unreal_Study\UEProject_05\Intermediate\Build\Win64\UE4Editor\Inc\UEProject_05
-/I C:\Users\USER\Programming\Project\Unreal_Study\UEProject_05\Source
-/I C:\Users\USER\Programming\Project\Unreal_Study\UEProject_05\Source\UEProject_05
+/I "C:\Users\YUM\Unreal Projects\UEProject_05\Intermediate\Build\Win64\UE4Editor\Inc\UEProject_05"
+/I "C:\Users\YUM\Unreal Projects\UEProject_05\Source"
+/I "C:\Users\YUM\Unreal Projects\UEProject_05\Source\UEProject_05"
 /I Runtime
 /I Runtime\TraceLog\Public
 /I Runtime\Core\Public
@@ -239,8 +239,8 @@
 /I ..\Plugins\Runtime\ProceduralMeshComponent\Source\ProceduralMeshComponent\Public
 /I Editor\MainFrame\Public
 /I Developer\DesktopPlatform\Public
-/I C:\Users\USER\Programming\Project\Unreal_Study\UEProject_05\Plugins\Example\Source
-/I C:\Users\USER\Programming\Project\Unreal_Study\UEProject_05\Plugins\Example\Source\Example
+/I "C:\Users\YUM\Unreal Projects\UEProject_05\Plugins\Example\Source"
+/I "C:\Users\YUM\Unreal Projects\UEProject_05\Plugins\Example\Source\Example"
 /I ThirdParty\PhysX3\PxShared\include
 /I ThirdParty\PhysX3\PxShared\include\cudamanager
 /I ThirdParty\PhysX3\PxShared\include\filebuf
@@ -266,16 +266,16 @@
 /I ThirdParty\PhysX3\APEX_1.4\shared\internal\include
 /I "C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.16.27023\INCLUDE"
 /I "C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um"
-/I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt"
-/I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared"
-/I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um"
-/I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt"
-/FI"C:\Users\USER\Programming\Project\Unreal_Study\UEProject_05\Intermediate\Build\Win64\UEProject_05Editor\Development\Engine\SharedPCH.Engine.ShadowErrors.h"
-/Yu"C:\Users\USER\Programming\Project\Unreal_Study\UEProject_05\Intermediate\Build\Win64\UEProject_05Editor\Development\Engine\SharedPCH.Engine.ShadowErrors.h"
-/Fp"C:\Users\USER\Programming\Project\Unreal_Study\UEProject_05\Intermediate\Build\Win64\UEProject_05Editor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.pch"
-"C:\Users\USER\Programming\Project\Unreal_Study\UEProject_05\Plugins\Example\Intermediate\Build\Win64\UE4Editor\Development\Example\Module.Example.cpp"
-/FI"C:\Users\USER\Programming\Project\Unreal_Study\UEProject_05\Plugins\Example\Intermediate\Build\Win64\UE4Editor\Development\Example\Definitions.Example.h"
-/Fo"C:\Users\USER\Programming\Project\Unreal_Study\UEProject_05\Plugins\Example\Intermediate\Build\Win64\UE4Editor\Development\Example\Module.Example.cpp.obj"
+/I "C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\ucrt"
+/I "C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\shared"
+/I "C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\um"
+/I "C:\Program Files (x86)\Windows Kits\10\include\10.0.17763.0\winrt"
+/FI"C:\Users\YUM\Unreal Projects\UEProject_05\Intermediate\Build\Win64\UEProject_05Editor\Development\Engine\SharedPCH.Engine.ShadowErrors.h"
+/Yu"C:\Users\YUM\Unreal Projects\UEProject_05\Intermediate\Build\Win64\UEProject_05Editor\Development\Engine\SharedPCH.Engine.ShadowErrors.h"
+/Fp"C:\Users\YUM\Unreal Projects\UEProject_05\Intermediate\Build\Win64\UEProject_05Editor\Development\Engine\SharedPCH.Engine.ShadowErrors.h.pch"
+"C:\Users\YUM\Unreal Projects\UEProject_05\Plugins\Example\Intermediate\Build\Win64\UE4Editor\Development\Example\Module.Example.cpp"
+/FI"C:\Users\YUM\Unreal Projects\UEProject_05\Plugins\Example\Intermediate\Build\Win64\UE4Editor\Development\Example\Definitions.Example.h"
+/Fo"C:\Users\YUM\Unreal Projects\UEProject_05\Plugins\Example\Intermediate\Build\Win64\UE4Editor\Development\Example\Module.Example.cpp.obj"
 /TP
 /GR-
 /W4

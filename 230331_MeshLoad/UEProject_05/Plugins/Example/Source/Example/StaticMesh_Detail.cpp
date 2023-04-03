@@ -80,7 +80,7 @@ FReply FStaticMesh_Detail::OnClicked_Paint()
 
 FReply FStaticMesh_Detail::OnClicked_Save()
 {
-	if(FApp::IsGame())
+	if(Objects[0]->GetWorld()->IsPlayInEditor())
 	{
 		FMessageDialog dialog;
 		dialog.Debugf(FText::FromString("In Game mode not working"));
