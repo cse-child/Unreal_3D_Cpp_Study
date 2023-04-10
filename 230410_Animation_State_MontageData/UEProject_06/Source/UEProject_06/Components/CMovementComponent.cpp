@@ -40,7 +40,6 @@ void UCMovementComponent::DisableControlRotation()
 	OwnerCharacter->GetCharacterMovement()->bOrientRotationToMovement = true;
 }
 
-
 void UCMovementComponent::BeginPlay()
 {
 	Super::BeginPlay();

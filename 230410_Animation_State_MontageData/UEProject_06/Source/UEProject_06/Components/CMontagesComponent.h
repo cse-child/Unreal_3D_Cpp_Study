@@ -46,6 +46,5 @@ protected:
 private:
 	class ACharacter* OwnerCharacter;
 	FMontagesData* Datas[(int32)EStateType::Max];
-
-		
 };
+

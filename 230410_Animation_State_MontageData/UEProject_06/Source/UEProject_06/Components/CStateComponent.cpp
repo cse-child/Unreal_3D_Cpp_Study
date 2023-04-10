@@ -48,3 +48,5 @@ void UCStateComponent::BeginPlay()
 {
 	Super::BeginPlay();
 }
+
+

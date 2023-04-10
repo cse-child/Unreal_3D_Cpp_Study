@@ -63,6 +63,6 @@ void ACPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("VertocalLook", Movement, &UCMovementComponent::OnHorizontalLook);
 
 	PlayerInputComponent->BindAction("Sprint", EInputEvent::IE_Pressed, Movement, &UCMovementComponent::OnSprint);
-	PlayerInputComponent->BindAction("Run", EInputEvent::IE_Pressed, Movement, &UCMovementComponent::OnRun);
+	PlayerInputComponent->BindAction("Sprint", EInputEvent::IE_Released, Movement, &UCMovementComponent::OnRun);
 }
 

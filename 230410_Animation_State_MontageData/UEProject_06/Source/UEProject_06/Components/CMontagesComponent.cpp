@@ -2,7 +2,7 @@
 #include "Global.h"
 #include "GameFramework/Character.h"
 
-//#define LOG_UCMontagesComponent 1
+#define LOG_UCMontagesComponent 1
 
 UCMontagesComponent::UCMontagesComponent()
 {
@@ -24,7 +24,6 @@ void UCMontagesComponent::BeginPlay()
 
 		return;
 	}
-
 	//CheckNull(DataTable);
 
 	OwnerCharacter = Cast<ACharacter>(GetOwner());
@@ -42,8 +41,8 @@ void UCMontagesComponent::BeginPlay()
 
 				continue;
 			}
-		} //for(data)
-	}//for(i)
+		}
+	}
 
 #if LOG_UCMontagesComponent
 	for (FMontagesData* data : Datas)
