@@ -1,0 +1,10 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.Weapon.cpp.obj": [
+			"WeaponCommand.cpp.obj",
+			"WeaponModule.cpp.obj",
+			"WeaponStyle.cpp.obj"
+		]
+	}
+}
