@@ -1,2 +1,0 @@
-C:\Users\YUM\Unreal Projects\UEProject_05\Plugins\Example\Intermediate\Build\Win64\UE4Editor\Development\Example\Definitions.Example.h
-c:\users\yum\unreal projects\ueproject_05\plugins\example\source\example\Example.h
