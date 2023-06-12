@@ -1,7 +1,7 @@
-C:\Users\YUM\GithubUpload\Unreal_3D_Cpp_Study\250607_\UEProject_06\Plugins\Weapon\Intermediate\Build\Win64\UE4Editor\Development\Weapon\Definitions.Weapon.h
-C:/Users/YUM/GithubUpload/Unreal_3D_Cpp_Study/250607_/UEProject_06/Plugins/Weapon/Intermediate/Build/Win64/UE4Editor/Inc/Weapon/Weapon.init.gen.cpp
+C:\Users\YUM\Unreal Projects\UEProject_06\Plugins\Weapon\Intermediate\Build\Win64\UE4Editor\Development\Weapon\Definitions.Weapon.h
+C:/Users/YUM/Unreal Projects/UEProject_06/Plugins/Weapon/Intermediate/Build/Win64/UE4Editor/Inc/Weapon/Weapon.init.gen.cpp
 C:\Program Files\Epic Games\UE_4.26\Engine\Source\Runtime\CoreUObject\Public\UObject/GeneratedCppIncludes.h
 C:\Program Files\Epic Games\UE_4.26\Engine\Source\Runtime\CoreUObject\Public\UObject/MetaData.h
-C:/Users/YUM/GithubUpload/Unreal_3D_Cpp_Study/250607_/UEProject_06/Plugins/Weapon/Intermediate/Build/Win64/UE4Editor/Inc/Weapon/WeaponAssetFactory.gen.cpp
-C:\Users\YUM\GithubUpload\Unreal_3D_Cpp_Study\250607_\UEProject_06\Plugins\Weapon\Source\Weapon/WeaponAssetFactory.h
-c:\users\yum\githubupload\unreal_3d_cpp_study\250607_\ueproject_06\plugins\weapon\intermediate\build\win64\ue4editor\inc\weapon\WeaponAssetFactory.generated.h
+C:/Users/YUM/Unreal Projects/UEProject_06/Plugins/Weapon/Intermediate/Build/Win64/UE4Editor/Inc/Weapon/WeaponAssetFactory.gen.cpp
+C:\Users\YUM\Unreal Projects\UEProject_06\Plugins\Weapon\Source\Weapon/WeaponAssetFactory.h
+c:\users\yum\unreal projects\ueproject_06\plugins\weapon\intermediate\build\win64\ue4editor\inc\weapon\WeaponAssetFactory.generated.h

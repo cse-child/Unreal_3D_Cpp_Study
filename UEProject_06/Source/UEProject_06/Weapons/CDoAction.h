@@ -44,8 +44,8 @@ public:
 		virtual void OnAttachmentEndOverlap(class ACharacter* InAttacker, class ACharacter* InOther) {}
 
 protected:
+	bool bInAction;
 	bool bBeginAction;
-	bool bInAction = true;
 
 	class ACharacter* OwnerCharacter;
 	class UWorld* World;

@@ -26,9 +26,8 @@ void UCDoAction::BeginPlay(ACAttachment* InAttachment, UCEquipment* InEquipment,
 
 void UCDoAction::DoAction()
 {
-	bInAction = true;
-
 	State->SetActionMode();
+	bInAction = true;
 }
 
 void UCDoAction::Begin_DoAction()

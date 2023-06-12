@@ -8,6 +8,13 @@ UCMovementComponent::UCMovementComponent()
 
 }
 
+void UCMovementComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+	OwnerCharacter = Cast<ACharacter>(GetOwner());
+}
+
 void UCMovementComponent::SetSpeed(ESpeedType InType)
 {
 	OwnerCharacter->GetCharacterMovement()->MaxWalkSpeed = Speed[(int32)InType];
@@ -38,13 +45,6 @@ void UCMovementComponent::DisableControlRotation()
 {
 	OwnerCharacter->bUseControllerRotationYaw = false;
 	OwnerCharacter->GetCharacterMovement()->bOrientRotationToMovement = true;
-}
-
-void UCMovementComponent::BeginPlay()
-{
-	Super::BeginPlay();
-
-	OwnerCharacter = Cast<ACharacter>(GetOwner());
 }
 
 void UCMovementComponent::OnMoveForward(float InAxis)

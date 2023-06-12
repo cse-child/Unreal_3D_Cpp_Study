@@ -11,6 +11,9 @@ ACRotate_Object::ACRotate_Object()
 	CHelpers::CreateComponent<UCapsuleComponent>(this, &Capsule, "Capsule");
 	CHelpers::CreateComponent<UParticleSystemComponent>(this, &Particle, "Particle", Capsule);
 
+	Capsule->SetCapsuleHalfHeight(44);
+	Capsule->SetCapsuleRadius(44);
+
 	InitialLifeSpan = 5;
 
 	HitData.Launch = 0;
@@ -62,14 +65,25 @@ void ACRotate_Object::Tick(float DeltaTime)
 void ACRotate_Object::OnComponentBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	CheckTrue(GetOwner() == OtherActor);
 
+	ACharacter* character = Cast<ACharacter>(OtherActor);
+	if (!!character)
+		Hitted.AddUnique(character);
 }
 
 void ACRotate_Object::OnComponentEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
+	CheckTrue(GetOwner() == OtherActor);
+
+	ACharacter* character = Cast<ACharacter>(OtherActor);
+	if (!!character)
+		Hitted.Remove(character);
 }
 
 void ACRotate_Object::SendDamage()
 {
+	for (int32 i = Hitted.Num() - 1; i >= 0; i--)
+		HitData.SendDamage(Cast<ACharacter>(GetOwner()), this, Hitted[i]);
 }

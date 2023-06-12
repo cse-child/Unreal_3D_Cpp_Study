@@ -1,6 +1,7 @@
 #include "Weapons/DoActions/CDoAction_Warp.h"
 #include "Global.h"
 #include "GameFramework/Character.h"
+#include "GameFramework/PlayerController.h"
 #include "Components/CStateComponent.h"
 #include "Components/DecalComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -69,13 +70,13 @@ void UCDoAction_Warp::DoAction()
 
 void UCDoAction_Warp::Begin_DoAction()
 {
-	//Super::Begin_DoAction();
+	Super::Begin_DoAction();
 
 	OwnerCharacter->SetActorLocation(MoveToLocation);
 	MoveToLocation = FVector::ZeroVector;
 }
 
-bool UCDoAction_Warp::GetCursorLocationAndRotation(FVector& OutLocation, FRotator& OutRotator)
+bool UCDoAction_Warp::GetCursorLocationAndRotation(FVector& OutLocation, FRotator& OutRotation)
 {
 	CheckNullResult(PlayerController, false);
 
@@ -84,7 +85,7 @@ bool UCDoAction_Warp::GetCursorLocationAndRotation(FVector& OutLocation, FRotato
 	CheckFalseResult(hitResult.bBlockingHit, false);
 
 	OutLocation = hitResult.Location;
-	OutRotator = hitResult.ImpactNormal.Rotation();
+	OutRotation = hitResult.ImpactNormal.Rotation();
 
 	return true;
 }

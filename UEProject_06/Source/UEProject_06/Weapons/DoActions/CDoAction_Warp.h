@@ -29,11 +29,11 @@ public:
 	void Begin_DoAction() override;
 
 private:
-	class APlayerController* PlayerController;
-	class UDecalComponent* Decal;
+	bool GetCursorLocationAndRotation(FVector& OutLocation, FRotator& OutRotation);
 
 private:
-	bool GetCursorLocationAndRotation(FVector& OutLocation, FRotator& OutRotator);
+	class APlayerController* PlayerController;
+	class UDecalComponent* Decal;
 
 private:
 	FVector MoveToLocation;

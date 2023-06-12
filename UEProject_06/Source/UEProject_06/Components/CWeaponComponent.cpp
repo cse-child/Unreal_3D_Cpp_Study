@@ -11,22 +11,18 @@
 UCWeaponComponent::UCWeaponComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+
 }
 
-bool UCWeaponComponent::IsIdleMode()
-{
-	return CHelpers::GetComponent<UCStateComponent>(OwnerCharacter)->IsIdleMode();
-}
-
-ACAttachment* UCWeaponComponent::GetAttachment()
+ACAttachment * UCWeaponComponent::GetAttachment()
 {
 	CheckTrueResult(IsUnarmedMode(), nullptr);
 	CheckFalseResult(!!DataAssets[(int32)Type], nullptr);
 
-	return DataAssets[(int32)Type]->GetAttackment();
+	return DataAssets[(int32)Type]->GetAttachment();
 }
 
-UCEquipment* UCWeaponComponent::GetEquipment()
+UCEquipment * UCWeaponComponent::GetEquipment()
 {
 	CheckTrueResult(IsUnarmedMode(), nullptr);
 	CheckFalseResult(!!DataAssets[(int32)Type], nullptr);
@@ -34,7 +30,7 @@ UCEquipment* UCWeaponComponent::GetEquipment()
 	return DataAssets[(int32)Type]->GetEquipment();
 }
 
-UCDoAction* UCWeaponComponent::GetDoAction()
+UCDoAction * UCWeaponComponent::GetDoAction()
 {
 	CheckTrueResult(IsUnarmedMode(), nullptr);
 	CheckFalseResult(!!DataAssets[(int32)Type], nullptr);
@@ -50,14 +46,12 @@ UCSubAction* UCWeaponComponent::GetSubAction()
 	return DataAssets[(int32)Type]->GetSubAction();
 }
 
-
 void UCWeaponComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
 	OwnerCharacter = Cast<ACharacter>(GetOwner());
-
-	for(int32 i = 0; i < (int32)EWeaponType::Max; i++)
+	for (int32 i = 0; i < (int32)EWeaponType::Max; i++)
 	{
 		if (!!DataAssets[i])
 			DataAssets[i]->BeginPlay(OwnerCharacter);
@@ -75,6 +69,11 @@ void UCWeaponComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 		GetSubAction()->Tick(DeltaTime);
 }
 
+bool UCWeaponComponent::IsIdleMode()
+{
+	return CHelpers::GetComponent<UCStateComponent>(OwnerCharacter)->IsIdleMode();
+}
+
 void UCWeaponComponent::SetUnarmedMode()
 {
 	GetEquipment()->Unequip();
@@ -84,6 +83,8 @@ void UCWeaponComponent::SetUnarmedMode()
 
 void UCWeaponComponent::SetFistMode()
 {
+	CheckFalse(IsIdleMode());
+
 	SetMode(EWeaponType::Fist);
 }
 
@@ -128,6 +129,18 @@ void UCWeaponComponent::DoAction()
 		GetDoAction()->DoAction();
 }
 
+void UCWeaponComponent::SubAction_Pressed()
+{
+	if (!!GetSubAction())
+		GetSubAction()->Pressed();
+}
+
+void UCWeaponComponent::SubAction_Released()
+{
+	if (!!GetSubAction())
+		GetSubAction()->Released();
+}
+
 void UCWeaponComponent::SetMode(EWeaponType InType)
 {
 	if (Type == InType)
@@ -158,15 +171,5 @@ void UCWeaponComponent::ChangeType(EWeaponType InType)
 		OnWeaponTypeChange.Broadcast(prevType, InType);
 }
 
-void UCWeaponComponent::SubAction_Pressed()
-{
-	if (!!GetSubAction())
-		GetSubAction()->Pressed();
-}
 
-void UCWeaponComponent::SubAction_Released()
-{
-	if (!!GetSubAction())
-		GetSubAction()->Released();
-}
 

@@ -12,7 +12,7 @@ class UEPROJECT_06_API UCWeaponAsset : public UDataAsset
 	GENERATED_BODY()
 
 public:
-	FORCEINLINE class ACAttachment* GetAttackment() { return Attachment; }
+	FORCEINLINE class ACAttachment* GetAttachment() { return Attachment; }
 	FORCEINLINE class UCEquipment* GetEquipment() { return Equipment; }
 	FORCEINLINE class UCDoAction* GetDoAction() { return DoAction; }
 	FORCEINLINE class UCSubAction* GetSubAction() { return SubAction; }

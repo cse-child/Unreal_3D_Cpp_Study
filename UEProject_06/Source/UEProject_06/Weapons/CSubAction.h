@@ -14,9 +14,6 @@ public:
 	UCSubAction();
 
 public:
-	FORCEINLINE bool InSubActionMode() { return bInSubActionMode; }
-
-public:
 	virtual void BeginPlay(class ACharacter* InOwner, class ACAttachment* InAttachment, class UCDoAction* InDoAction);
 
 public:
@@ -37,18 +34,12 @@ public:
 	virtual void Tick_Implementation(float InDeltaTime) {}
 
 protected:
-	class ACGhostTrail* Begin_GhostTrail;
-
-protected:
 	class ACharacter* Owner;
 	class ACAttachment* Attachment;
 	class UCDoAction* DoAction;
 
 	class UCStateComponent* State;
 	class UCMovementComponent* Movement;
-
-private:
-	bool bInSubActionMode;
 };
 
 

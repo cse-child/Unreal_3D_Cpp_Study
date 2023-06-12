@@ -17,5 +17,14 @@ void UCDoAction_Around::Begin_DoAction()
 {
 	Super::Begin_DoAction();
 
+	CheckFalse(RotateClasses.Num() > 0);
 
+	int32 index = UKismetMathLibrary::RandomIntegerInRange(0, RotateClasses.Num() - 1);
+
+
+	FActorSpawnParameters params;
+	params.Owner = OwnerCharacter;
+	params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	OwnerCharacter->GetWorld()->SpawnActor<ACRotate_Object>(RotateClasses[index], params);
 }
