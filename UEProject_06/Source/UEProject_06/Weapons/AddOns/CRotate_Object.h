@@ -25,7 +25,7 @@ private:
 		bool bNegative;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Spawn")
-		float DamageInteval = 0.1f;
+		float DamageInterval = 0.1f;
 
 private:
 	UPROPERTY(VisibleDefaultsOnly)

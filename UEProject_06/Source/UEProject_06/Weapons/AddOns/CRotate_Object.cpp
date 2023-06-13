@@ -20,7 +20,6 @@ ACRotate_Object::ACRotate_Object()
 	HitData.Power = 5;
 
 	CHelpers::GetAsset<UAnimMontage>(&HitData.Montage, "AnimMontage'/Game/Character/Montages/Common/HitReaction_Montage.HitReaction_Montage'");
-
 }
 
 void ACRotate_Object::BeginPlay()
@@ -32,8 +31,7 @@ void ACRotate_Object::BeginPlay()
 	Capsule->OnComponentBeginOverlap.AddDynamic(this, &ACRotate_Object::OnComponentBeginOverlap);
 	Capsule->OnComponentEndOverlap.AddDynamic(this, &ACRotate_Object::OnComponentEndOverlap);
 
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ACRotate_Object::SendDamage, DamageInteval, true);
-	
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ACRotate_Object::SendDamage, DamageInterval, true);
 }
 
 void ACRotate_Object::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -52,7 +50,6 @@ void ACRotate_Object::Tick(float DeltaTime)
 	Angle += (bNegative ? -Speed : +Speed) * DeltaTime;
 	if (FMath::IsNearlyEqual(Angle, bNegative ? -360 : +360))
 		Angle = 0;
-
 
 	FVector distance = FVector(Distance, 0, 0);
 	FVector value = distance.RotateAngleAxis(Angle, FVector::UpVector);

@@ -15,6 +15,5 @@ private:
 public:
 	void DoAction() override;
 	void Begin_DoAction() override;
-
-
 };
+

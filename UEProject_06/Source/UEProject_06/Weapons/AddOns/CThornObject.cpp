@@ -7,7 +7,6 @@ ACThornObject::ACThornObject()
 {
 	CHelpers::CreateComponent<USceneComponent>(this, &Root, "Root");
 	CHelpers::CreateComponent<UNiagaraComponent>(this, &Niagara, "Niagara", Root);
-
 }
 
 void ACThornObject::BeginPlay()
@@ -22,7 +21,6 @@ void ACThornObject::BeginPlay()
 		FBox box = NiagaraMesh->GetBoundingBox();
 		BoxExtent = (box.Max - box.Min).GetAbs() * 0.5f;
 	}
-
 }
 
 void ACThornObject::ReceiveParticleData_Implementation(const TArray<FBasicParticleData>& Data,
@@ -41,7 +39,8 @@ void ACThornObject::ReceiveParticleData_Implementation(const TArray<FBasicPartic
 		FVector position = Data[i].Position + GetActorLocation();
 		FVector scale = Data[i].Velocity * BoxExtent;
 
-		UKismetSystemLibrary::BoxTraceSingleByProfile(GetWorld(), position, position, scale, NiagaraMeshRotation, "Pawn", false, ignores, EDrawDebugTrace::None, hitResult, true);
+		UKismetSystemLibrary::BoxTraceSingleByProfile(GetWorld(), position, position, scale, 
+			NiagaraMeshRotation, "Pawn", false, ignores, EDrawDebugTrace::None, hitResult, true);
 		if (hitResult.bBlockingHit)
 		{
 			if (!!CollisionEffect)
@@ -60,7 +59,6 @@ void ACThornObject::ReceiveParticleData_Implementation(const TArray<FBasicPartic
 		}
 
 	}
-
 }
 
 void ACThornObject::OnSystemFinished(UNiagaraComponent* PSystem)

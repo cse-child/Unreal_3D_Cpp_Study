@@ -40,7 +40,6 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-
 public:
 	void ReceiveParticleData_Implementation(const TArray<FBasicParticleData>& Data, UNiagaraSystem* NiagaraSystem);
 
