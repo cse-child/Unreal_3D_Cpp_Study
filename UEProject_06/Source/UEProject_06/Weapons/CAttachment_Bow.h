@@ -21,7 +21,8 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	void OnBeginEquip_Implementation();
-	void OnUnequip_Implementation();
-	
+	void OnBeginEquip_Implementation() override;
+	void OnUnequip_Implementation() override;
 };
+
+

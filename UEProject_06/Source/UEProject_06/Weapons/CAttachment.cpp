@@ -34,6 +34,15 @@ void ACAttachment::BeginPlay()
 	Super::BeginPlay(); // Blueprint¿¡¼­ Call
 }
 
+void ACAttachment::OnBeginEquip_Implementation()
+{
+}
+
+void ACAttachment::OnUnequip_Implementation()
+{
+}
+
+
 void ACAttachment::AttachTo(FName InSocketName)
 {
 	AttachToComponent(OwnerCharacter->GetMesh(),

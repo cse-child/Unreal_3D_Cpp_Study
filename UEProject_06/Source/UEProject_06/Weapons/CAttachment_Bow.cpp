@@ -13,17 +13,22 @@ ACAttachment_Bow::ACAttachment_Bow()
 
 void ACAttachment_Bow::BeginPlay()
 {
-	AttachTo("Holster_Bow");
-
 	Super::BeginPlay();
+
+	AttachTo("Holster_Bow");
 }
 
 void ACAttachment_Bow::OnBeginEquip_Implementation()
 {
-	CLog::Log("OnBeginEquip_Implementation");
+	Super::OnBeginEquip_Implementation();
+	
+	AttachTo("Hand_Bow_Left");
 }
 
 void ACAttachment_Bow::OnUnequip_Implementation()
 {
-	CLog::Log("OnUnequip_Implementation");
+	Super::OnUnequip_Implementation();
+
+	AttachTo("Holster_Bow");
 }
+
