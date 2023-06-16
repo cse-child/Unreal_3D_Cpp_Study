@@ -21,8 +21,18 @@ void ACAttachment_Bow::BeginPlay()
 void ACAttachment_Bow::OnBeginEquip_Implementation()
 {
 	Super::OnBeginEquip_Implementation();
-	
+
 	AttachTo("Hand_Bow_Left");
+
+	APlayerController* controller = OwnerCharacter->GetController<APlayerController>();
+	if (controller)
+	{
+		OriginViewPitchRange.X = controller->PlayerCameraManager->ViewPitchMin;
+		OriginViewPitchRange.Y = controller->PlayerCameraManager->ViewPitchMax;
+
+		controller->PlayerCameraManager->ViewPitchMin = ViewPitchRange.X;
+		controller->PlayerCameraManager->ViewPitchMax = ViewPitchRange.Y;
+	}
 }
 
 void ACAttachment_Bow::OnUnequip_Implementation()
@@ -30,5 +40,12 @@ void ACAttachment_Bow::OnUnequip_Implementation()
 	Super::OnUnequip_Implementation();
 
 	AttachTo("Holster_Bow");
+
+	APlayerController* controller = OwnerCharacter->GetController<APlayerController>();
+	if (controller)
+	{
+		controller->PlayerCameraManager->ViewPitchMin = OriginViewPitchRange.X;
+		controller->PlayerCameraManager->ViewPitchMax = OriginViewPitchRange.Y;
+	}
 }
 

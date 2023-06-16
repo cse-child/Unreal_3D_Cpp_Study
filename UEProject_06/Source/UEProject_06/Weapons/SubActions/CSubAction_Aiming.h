@@ -40,6 +40,9 @@ private:
 		float AimingSpeed = 200;
 
 public:
+	FORCEINLINE bool GetAiming() { return bAiming; }
+
+public:
 	UCSubAction_Aiming();
 
 public:

@@ -11,14 +11,17 @@ class UEPROJECT_06_API UCAnimInstance : public UAnimInstance
 	GENERATED_BODY()
 
 protected:
-	UPROPERTY(BlueprintReadOnly, Category = "Animation")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
 		float Speed;
 
-	UPROPERTY(BlueprintReadOnly, Category = "Animation")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
 		float Pitch;
 
-	UPROPERTY(BlueprintReadOnly, Category = "Animation")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
 		float Direction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Bow")
+		bool bAim_Bow;
 
 protected:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Animation")
