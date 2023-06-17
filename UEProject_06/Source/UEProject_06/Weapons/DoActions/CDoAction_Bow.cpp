@@ -37,13 +37,14 @@ void UCDoAction_Bow::Begin_DoAction()
 {
 	Super::Begin_DoAction();
 
-	//ACProjectile* projectile = GetAttachedArrow();
-	//projectile->DetachFromActor(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
-	//
-	//projectile->OnHit.AddDynamic(this, &UCDoAction_Bow::OnArrowHit);
-	//projectile->OnEndPlay.AddDynamic(this, &UCDoAction_Bow::OnArrowEndPlay);
-	//
-	//projectile->Shoot(OwnerCharacter->GetActorForwardVector());
+	ACProjectile* projectile = GetAttachedArrow();
+	projectile->DetachFromActor(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
+	
+	projectile->OnHit.AddDynamic(this, &UCDoAction_Bow::OnArrowHit);
+	projectile->OnEndPlay.AddDynamic(this, &UCDoAction_Bow::OnArrowEndPlay);
+
+	FVector forward = FQuat(OwnerCharacter->GetControlRotation()).GetForwardVector();
+	projectile->Shoot(forward);
 
 	//Poseable->SetBoneLocationByName("bow_string_mid", OriginLocation, EBoneSpaces::ComponentSpace);
 }
@@ -52,7 +53,31 @@ void UCDoAction_Bow::End_DoAction()
 {
 	Super::End_DoAction();
 
-	//CreateArrow();
+	CreateArrow();
+}
+
+void UCDoAction_Bow::OnBeginEquip()
+{
+	Super::OnBeginEquip();
+
+	CreateArrow();
+	OwnerCharacter->GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
+void UCDoAction_Bow::OnUnequip()
+{
+	Super::OnUnequip();
+
+	OwnerCharacter->GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+
+	//Poseable->SetBoneLocationByName("bow_string_mid", OriginLocation, EBoneSpaces::ComponentSpace);
+
+	// 활 장착 해제 시 몸에 붙은 화살 제거 
+	for(int32 i = Arrows.Num()-1; i >= 0; i--)
+	{
+		if (!!Arrows[i]->GetAttachParentActor())
+			Arrows[i]->Destroy();
+	}
 }
 
 void UCDoAction_Bow::CreateArrow()
@@ -86,6 +111,8 @@ ACProjectile* UCDoAction_Bow::GetAttachedArrow()
 
 void UCDoAction_Bow::OnArrowHit(AActor* InCauser, ACharacter* InOtherCharacter)
 {
+	CheckFalse(HitDatas.Num() > 0);
+
 	HitDatas[0].SendDamage(OwnerCharacter, InCauser, InOtherCharacter);
 }
 

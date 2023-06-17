@@ -30,7 +30,8 @@ public:
 	void Begin_DoAction() override;
 	void End_DoAction() override;
 
-	//void Tick(float DeltaTime) override;
+	void OnBeginEquip() override;
+	void OnUnequip() override;
 
 private:
 	void CreateArrow();

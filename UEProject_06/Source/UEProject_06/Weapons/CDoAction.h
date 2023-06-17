@@ -32,6 +32,13 @@ public:
 
 public:
 	UFUNCTION()
+		virtual void OnBeginEquip() {}
+
+	UFUNCTION()
+		virtual void OnUnequip() {}
+
+public:
+	UFUNCTION()
 		virtual void OnAttachmentBeginCollision() {}
 
 	UFUNCTION()
