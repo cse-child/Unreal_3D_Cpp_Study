@@ -15,6 +15,9 @@ private:
 		TSubclassOf<class ACProjectile> ArrowClass;
 
 public:
+	FORCEINLINE void AttachString() { bAttachedString = true; } // End_BowString 노티파이에서 제어
+
+public:
 	UCDoAction_Bow();
 
 	void BeginPlay
@@ -30,7 +33,11 @@ public:
 	void Begin_DoAction() override;
 	void End_DoAction() override;
 
+	void Tick(float InDeltaTime) override;
+
+	void OnEquip() override;
 	void OnBeginEquip() override;
+	void OnEndEquip() override;
 	void OnUnequip() override;
 
 private:
@@ -51,7 +58,7 @@ private:
 	TArray<class ACProjectile*> Arrows;
 	FVector OriginLocation;
 
-	bool bInAction;
+	bool bAttachedString = true;
 };
 
 

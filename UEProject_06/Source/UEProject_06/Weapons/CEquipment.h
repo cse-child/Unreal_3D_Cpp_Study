@@ -5,7 +5,9 @@
 #include "UObject/NoExportTypes.h"
 #include "CEquipment.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FEquipmentEquip);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FEquipmentBeginEquip);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FEquipmentEndEquip);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FEquipmentUnequip);
 
 UCLASS()
@@ -37,7 +39,9 @@ public:
 	void Unequip_Implementation();
 
 public:
+	FEquipmentEquip OnEquipmentEquip;
 	FEquipmentBeginEquip OnEquipmentBeginEquip;
+	FEquipmentEndEquip OnEquipmentEndEquip;
 	FEquipmentUnequip OnEquipmentUnequip;
 
 private:

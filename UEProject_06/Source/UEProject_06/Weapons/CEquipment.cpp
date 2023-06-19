@@ -18,12 +18,20 @@ void UCEquipment::Equip_Implementation()
 {
 	State->SetEquipMode();
 
+	// Pre
+	if (OnEquipmentEquip.IsBound()) // 몽타주 전에 실행되어야 함
+		OnEquipmentEquip.Broadcast();
+
 	if (Data.bCanMove == false)
 		Movement->Stop();
 
 	if(!!Data.Montage) // 몽타주가 있다면 Begin, End 노티파이로 호출됨
 	{
+		// ing
+
+		// PreBegin (이벤트 세분화)
 		OwnerCharacter->PlayAnimMontage(Data.Montage, Data.PlayRate);
+		// PostBegin
 	}
 	else // 몽타주가 없다면 임의로 Begin, End 호출
 	{
@@ -33,6 +41,8 @@ void UCEquipment::Equip_Implementation()
 
 	if (Data.bUseControlRotation)
 		Movement->EnableControlRotation();
+
+	// Post
 }
 
 void UCEquipment::Begin_Equip_Implementation()
@@ -45,11 +55,16 @@ void UCEquipment::Begin_Equip_Implementation()
 
 void UCEquipment::End_Equip_Implementation()
 {
+	// Pre (호출 시점)
 	bBeginEquip = false;
 	bEquipped = true;
 
 	Movement->Move();
 	State->SetIdleMode();
+
+	// Post
+	if (OnEquipmentEndEquip.IsBound())
+		OnEquipmentEndEquip.Broadcast();
 }
 
 void UCEquipment::Unequip_Implementation()

@@ -1,14 +1,23 @@
 #include "Weapons/CAttachment_Bow.h"
 #include "Global.h"
+#include "Characters/CAnimInstance_Bow.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "Components/PoseableMeshComponent.h"
 
 ACAttachment_Bow::ACAttachment_Bow()
 {
-	CHelpers::CreateComponent(this, &Mesh, "Mesh", Root);
+	PrimaryActorTick.bCanEverTick = true;
+
+	//CHelpers::CreateComponent<USkeletalMeshComponent>(this, &SkeletalMesh, "SkeletalMesh", Root);
+	CHelpers::CreateComponent<UPoseableMeshComponent>(this, &PoseableMesh, "PoseableMesh", Root);
 
 	USkeletalMesh* mesh;
 	CHelpers::GetAsset<USkeletalMesh>(&mesh, "SkeletalMesh'/Game/Character/Weapons/ElvenBow/SK_ElvenBow.SK_ElvenBow'");
-	Mesh->SetSkeletalMesh(mesh);
+	//SkeletalMesh->SetSkeletalMesh(mesh);
+	//SkeletalMesh->SetCollisionProfileName("NoCollision");
+
+	PoseableMesh->SetSkeletalMesh(mesh);
+
 }
 
 void ACAttachment_Bow::BeginPlay()
@@ -16,6 +25,16 @@ void ACAttachment_Bow::BeginPlay()
 	Super::BeginPlay();
 
 	AttachTo("Holster_Bow");
+
+	//PoseableMesh->SetSkeletalMesh(SkeletalMesh->SkeletalMesh);
+	//PoseableMesh->CopyPoseFromSkeletalComponent(SkeletalMesh);
+}
+
+void ACAttachment_Bow::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	//PoseableMesh->CopyPoseFromSkeletalComponent(SkeletalMesh);
 }
 
 void ACAttachment_Bow::OnBeginEquip_Implementation()

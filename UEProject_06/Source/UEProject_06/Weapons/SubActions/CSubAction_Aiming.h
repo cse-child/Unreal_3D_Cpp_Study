@@ -31,7 +31,7 @@ class UEPROJECT_06_API UCSubAction_Aiming : public UCSubAction
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Aiming")
-		class UCurveFloat* Curve;
+		class UCurveVector* Curve;
 
 	UPROPERTY(EditAnywhere, Category = "Aiming")
 		FAimData AimData;
@@ -57,7 +57,7 @@ public:
 
 private:
 	UFUNCTION()
-		void OnAiming(float Output);
+		void OnAiming(FVector Output);
 
 private:
 	class USpringArmComponent* SpringArm;

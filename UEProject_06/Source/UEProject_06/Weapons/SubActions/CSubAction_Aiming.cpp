@@ -9,7 +9,7 @@
 
 UCSubAction_Aiming::UCSubAction_Aiming()
 {
-	CHelpers::GetAsset<UCurveFloat>(&Curve, "CurveFloat'/Game/Weapons/Bow/Curve_Aim.Curve_Aim'");
+	CHelpers::GetAsset<UCurveVector>(&Curve, "CurveVector'/Game/Weapons/Bow/Curve_Aiming.Curve_Aiming'");
 }
 
 void UCSubAction_Aiming::BeginPlay(ACharacter* InOwner, ACAttachment* InAttachment, UCDoAction* InDoAction)
@@ -19,10 +19,10 @@ void UCSubAction_Aiming::BeginPlay(ACharacter* InOwner, ACAttachment* InAttachme
 	SpringArm = CHelpers::GetComponent<USpringArmComponent>(InOwner);
 	Camera = CHelpers::GetComponent<UCameraComponent>(InOwner);
 
-	FOnTimelineFloat timeline;
+	FOnTimelineVector timeline;
 	timeline.BindUFunction(this, "OnAiming");
 
-	Timeline.AddInterpFloat(Curve, timeline);
+	Timeline.AddInterpVector(Curve, timeline);
 	Timeline.SetPlayRate(AimingSpeed);
 }
 
@@ -33,9 +33,9 @@ void UCSubAction_Aiming::Tick_Implementation(float InDeltaTime)
 	Timeline.TickTimeline(InDeltaTime);
 }
 
-void UCSubAction_Aiming::OnAiming(float Output)
+void UCSubAction_Aiming::OnAiming(FVector Output)
 {
-	Camera->FieldOfView = Output;
+	Camera->FieldOfView = Output.X;
 }
 
 void UCSubAction_Aiming::Pressed()

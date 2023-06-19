@@ -32,7 +32,13 @@ public:
 
 public:
 	UFUNCTION()
+		virtual void OnEquip() {}
+
+	UFUNCTION()
 		virtual void OnBeginEquip() {}
+
+	UFUNCTION()
+		virtual void OnEndEquip() {}
 
 	UFUNCTION()
 		virtual void OnUnequip() {}
@@ -53,6 +59,7 @@ public:
 protected:
 	bool bInAction;
 	bool bBeginAction;
+	bool bEndEquip;
 
 	class ACharacter* OwnerCharacter;
 	class UWorld* World;

@@ -24,18 +24,18 @@ void UCDoAction_Bow::BeginPlay(ACAttachment* InAttachment, UCEquipment* InEquipm
 void UCDoAction_Bow::DoAction()
 {
 	CheckFalse(State->IsIdleMode());
+	CheckFalse(State->IsSubActionMode()); // 임시로 Aim 상태만 발사하도록 설정!
 
 	Super::DoAction();
 
 	DoActionDatas[0].DoAction(OwnerCharacter);
-
-	//FAttachmentTransformRules rule = FAttachmentTransformRules(EAttachmentRule::KeepRelative, true);
-	//GetAttachedArrow()->AttachToComponent(OwnerCharacter->GetMesh(), rule, "Hand_Bow_Right_Arrow_Action");
 }
 
 void UCDoAction_Bow::Begin_DoAction()
 {
 	Super::Begin_DoAction();
+
+	bAttachedString = false;
 
 	ACProjectile* projectile = GetAttachedArrow();
 	projectile->DetachFromActor(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
@@ -46,7 +46,7 @@ void UCDoAction_Bow::Begin_DoAction()
 	FVector forward = FQuat(OwnerCharacter->GetControlRotation()).GetForwardVector();
 	projectile->Shoot(forward);
 
-	//Poseable->SetBoneLocationByName("bow_string_mid", OriginLocation, EBoneSpaces::ComponentSpace);
+	Poseable->SetBoneLocationByName("bow_string_mid", OriginLocation, EBoneSpaces::ComponentSpace);
 }
 
 void UCDoAction_Bow::End_DoAction()
@@ -54,6 +54,28 @@ void UCDoAction_Bow::End_DoAction()
 	Super::End_DoAction();
 
 	CreateArrow();
+}
+
+void UCDoAction_Bow::Tick(float InDeltaTime)
+{
+	Super::Tick(InDeltaTime);
+
+	bool bCheck = true;
+	bCheck &= (bEndEquip == true);
+	bCheck &= (bBeginAction == false);
+	bCheck &= (bAttachedString == true);
+
+	CheckFalse(bCheck);
+
+	FVector HandLocation = OwnerCharacter->GetMesh()->GetSocketLocation("Hand_Bow_Right");
+	Poseable->SetBoneLocationByName("bow_string_mid", HandLocation, EBoneSpaces::WorldSpace);
+}
+
+void UCDoAction_Bow::OnEquip()
+{
+	Super::OnEquip();
+
+	bEndEquip = false;
 }
 
 void UCDoAction_Bow::OnBeginEquip()
@@ -64,13 +86,20 @@ void UCDoAction_Bow::OnBeginEquip()
 	OwnerCharacter->GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
+void UCDoAction_Bow::OnEndEquip()
+{
+	Super::OnEndEquip();
+
+	bEndEquip = true;
+}
+
 void UCDoAction_Bow::OnUnequip()
 {
 	Super::OnUnequip();
 
 	OwnerCharacter->GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 
-	//Poseable->SetBoneLocationByName("bow_string_mid", OriginLocation, EBoneSpaces::ComponentSpace);
+	Poseable->SetBoneLocationByName("bow_string_mid", OriginLocation, EBoneSpaces::ComponentSpace);
 
 	// 활 장착 해제 시 몸에 붙은 화살 제거 
 	for(int32 i = Arrows.Num()-1; i >= 0; i--)
