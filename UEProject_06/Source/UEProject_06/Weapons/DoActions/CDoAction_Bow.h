@@ -52,13 +52,17 @@ private:
 		void OnArrowEndPlay(class ACProjectile* InDestroyer);
 
 private:
-	class UPoseableMeshComponent* Poseable;
+	class USkeletalMeshComponent* SkeletalMesh;
+	class UPoseableMeshComponent* PoseableMesh;
 
 private:
 	TArray<class ACProjectile*> Arrows;
 	FVector OriginLocation;
 
 	bool bAttachedString = true;
+
+private:
+	float* Bending;
 };
 
 

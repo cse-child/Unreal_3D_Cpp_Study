@@ -72,4 +72,7 @@ private:
 private:
 	FTimeline Timeline;
 
+private:
+	float* Bending;
+
 };

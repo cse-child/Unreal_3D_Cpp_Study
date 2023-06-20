@@ -1,6 +1,7 @@
 #include "Weapons/DoActions/CDoAction_Bow.h"
 #include "Global.h"
 #include "Weapons/CAttachment.h"
+#include "Weapons/CAttachment_Bow.h"
 #include "Weapons/AddOns/CProjectile.h"
 #include "GameFramework/Character.h"
 #include "Components/PoseableMeshComponent.h"
@@ -17,8 +18,12 @@ void UCDoAction_Bow::BeginPlay(ACAttachment* InAttachment, UCEquipment* InEquipm
 {
 	Super::BeginPlay(InAttachment, InEquipment, InOwner, InDoActionData, InHitData);
 
-	Poseable = CHelpers::GetComponent<UPoseableMeshComponent>(InAttachment);
-	OriginLocation = Poseable->GetBoneLocationByName("bow_string_mid", EBoneSpaces::ComponentSpace);
+	SkeletalMesh = CHelpers::GetComponent<USkeletalMeshComponent>(InAttachment);
+	PoseableMesh = CHelpers::GetComponent<UPoseableMeshComponent>(InAttachment);
+	OriginLocation = PoseableMesh->GetBoneLocationByName("bow_string_mid", EBoneSpaces::ComponentSpace);
+
+	ACAttachment_Bow* bow = Cast<ACAttachment_Bow>(InAttachment);
+	Bending = bow->GetBend();
 }
 
 void UCDoAction_Bow::DoAction()
@@ -46,13 +51,15 @@ void UCDoAction_Bow::Begin_DoAction()
 	FVector forward = FQuat(OwnerCharacter->GetControlRotation()).GetForwardVector();
 	projectile->Shoot(forward);
 
-	Poseable->SetBoneLocationByName("bow_string_mid", OriginLocation, EBoneSpaces::ComponentSpace);
+	*Bending = 0;
+	PoseableMesh->SetBoneLocationByName("bow_string_mid", OriginLocation, EBoneSpaces::ComponentSpace);
 }
 
 void UCDoAction_Bow::End_DoAction()
 {
 	Super::End_DoAction();
 
+	*Bending = 1;
 	CreateArrow();
 }
 
@@ -67,8 +74,10 @@ void UCDoAction_Bow::Tick(float InDeltaTime)
 
 	CheckFalse(bCheck);
 
+	PoseableMesh->CopyPoseFromSkeletalComponent(SkeletalMesh);
+
 	FVector HandLocation = OwnerCharacter->GetMesh()->GetSocketLocation("Hand_Bow_Right");
-	Poseable->SetBoneLocationByName("bow_string_mid", HandLocation, EBoneSpaces::WorldSpace);
+	PoseableMesh->SetBoneLocationByName("bow_string_mid", HandLocation, EBoneSpaces::WorldSpace);
 }
 
 void UCDoAction_Bow::OnEquip()
@@ -97,9 +106,10 @@ void UCDoAction_Bow::OnUnequip()
 {
 	Super::OnUnequip();
 
+	*Bending = 0;
 	OwnerCharacter->GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 
-	Poseable->SetBoneLocationByName("bow_string_mid", OriginLocation, EBoneSpaces::ComponentSpace);
+	PoseableMesh->SetBoneLocationByName("bow_string_mid", OriginLocation, EBoneSpaces::ComponentSpace);
 
 	// 활 장착 해제 시 몸에 붙은 화살 제거 
 	for(int32 i = Arrows.Num()-1; i >= 0; i--)

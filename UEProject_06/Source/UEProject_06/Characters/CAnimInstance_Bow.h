@@ -14,10 +14,10 @@ protected:
 		float Bend;
 
 public:
+	FORCEINLINE float* GetBend() { return &Bend; }
+
+public:
 	void NativeBeginPlay() override;
 	void NativeUpdateAnimation(float DeltaSeconds) override;
 
-private:
-	class ACharacter* OwnerCharacter;
-	class UCWeaponComponent* Weapon;
 };

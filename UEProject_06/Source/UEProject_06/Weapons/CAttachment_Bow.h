@@ -15,8 +15,8 @@ private:
 		FVector2D ViewPitchRange = FVector2D(-40, +30);
 
 private:
-	//UPROPERTY(VisibleAnywhere)
-	//	class USkeletalMeshComponent* SkeletalMesh;
+	UPROPERTY(VisibleAnywhere)
+		class USkeletalMeshComponent* SkeletalMesh;
 
 	UPROPERTY(VisibleAnywhere)
 		class UPoseableMeshComponent* PoseableMesh;
@@ -33,6 +33,9 @@ public:
 public:
 	void OnBeginEquip_Implementation() override;
 	void OnUnequip_Implementation() override;
+
+public:
+	float* GetBend();
 
 private:
 	FVector2D OriginViewPitchRange;

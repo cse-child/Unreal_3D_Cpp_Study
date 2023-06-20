@@ -4,20 +4,23 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/PoseableMeshComponent.h"
 
+
 ACAttachment_Bow::ACAttachment_Bow()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	//CHelpers::CreateComponent<USkeletalMeshComponent>(this, &SkeletalMesh, "SkeletalMesh", Root);
+	CHelpers::CreateComponent<USkeletalMeshComponent>(this, &SkeletalMesh, "SkeletalMesh", Root);
 	CHelpers::CreateComponent<UPoseableMeshComponent>(this, &PoseableMesh, "PoseableMesh", Root);
 
 	USkeletalMesh* mesh;
 	CHelpers::GetAsset<USkeletalMesh>(&mesh, "SkeletalMesh'/Game/Character/Weapons/ElvenBow/SK_ElvenBow.SK_ElvenBow'");
-	//SkeletalMesh->SetSkeletalMesh(mesh);
-	//SkeletalMesh->SetCollisionProfileName("NoCollision");
+	SkeletalMesh->SetSkeletalMesh(mesh);
+	SkeletalMesh->SetCollisionProfileName("NoCollision");
 
-	PoseableMesh->SetSkeletalMesh(mesh);
-
+	TSubclassOf<UCAnimInstance_Bow> animInstance;
+	CHelpers::GetClass<UCAnimInstance_Bow>(&animInstance, "AnimBlueprint'/Game/Weapons/Bow/ABP_Bow.ABP_Bow_C'");
+	SkeletalMesh->SetAnimInstanceClass(animInstance);
+	
 }
 
 void ACAttachment_Bow::BeginPlay()
@@ -26,8 +29,13 @@ void ACAttachment_Bow::BeginPlay()
 
 	AttachTo("Holster_Bow");
 
-	//PoseableMesh->SetSkeletalMesh(SkeletalMesh->SkeletalMesh);
-	//PoseableMesh->CopyPoseFromSkeletalComponent(SkeletalMesh);
+	SkeletalMesh->SetVisibility(false); // SkeletalMesh는 숨기고, PoseableMesh를 캡처하여 사용
+
+	PoseableMesh->SetSkeletalMesh(SkeletalMesh->SkeletalMesh);
+	PoseableMesh->CopyPoseFromSkeletalComponent(SkeletalMesh);
+
+	//UCAnimInstance_Bow* instance = Cast<UCAnimInstance_Bow>(SkeletalMesh->GetAnimInstance());
+	//instance->SetBend(1.0f);
 }
 
 void ACAttachment_Bow::Tick(float DeltaTime)
@@ -67,4 +75,10 @@ void ACAttachment_Bow::OnUnequip_Implementation()
 		controller->PlayerCameraManager->ViewPitchMax = OriginViewPitchRange.Y;
 	}
 }
+
+float* ACAttachment_Bow::GetBend()
+{
+	return Cast<UCAnimInstance_Bow>(SkeletalMesh->GetAnimInstance())->GetBend();
+}
+
 
