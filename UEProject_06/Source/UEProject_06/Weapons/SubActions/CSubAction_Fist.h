@@ -41,5 +41,3 @@ private:
 private:
 	class ACGhostTrail* GhostTrail;
 };
-
-

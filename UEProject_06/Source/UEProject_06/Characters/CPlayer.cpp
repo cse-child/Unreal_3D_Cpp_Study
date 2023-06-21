@@ -8,7 +8,9 @@
 #include "Components/CMovementComponent.h"
 #include "Components/CStateComponent.h"
 #include "Components/CMontagesComponent.h"
+#include "Parkour/CParkourComponent.h"
 #include "Components/InputComponent.h"
+#include "Components/ArrowComponent.h"
 
 ACPlayer::ACPlayer()
 {
@@ -20,6 +22,7 @@ ACPlayer::ACPlayer()
 	CHelpers::CreateActorComponent<UCMovementComponent>(this, &Movement, "Movement");
 	CHelpers::CreateActorComponent<UCStateComponent>(this, &State, "State");
 	CHelpers::CreateActorComponent<UCMontagesComponent>(this, &Montages, "Montages");
+	CHelpers::CreateActorComponent<UCParkourComponent>(this, &Parkour, "Parkour");
 
 	/* Mesh */
 	GetMesh()->SetRelativeLocation(FVector(0, 0, -90));
@@ -44,6 +47,50 @@ ACPlayer::ACPlayer()
 
 	/* Rotation Rate */
 	GetCharacterMovement()->RotationRate = FRotator(0, 720, 0);
+
+	// 실제로는 Player한테 Arrow 자동으로할당해주고 Component 빠지면 할당 해제하도록 함
+	// 근데 일단 복잡하니까 Player가 다 가지고있게 만듬
+
+	/* Parkour Component */
+	CHelpers::CreateComponent<USceneComponent>(this, &ArrowGroup, "ArrowGroup", GetCapsuleComponent());
+	for(int32 i = 0; i < (int32)EParkourArrowType::Max; i++)
+	{
+		FString name = StaticEnum<EParkourArrowType>()->GetNameStringByIndex(i);
+		CHelpers::CreateComponent<UArrowComponent>(this, &Arrows[i], FName(name), ArrowGroup);
+
+		switch ((EParkourArrowType)i)
+		{
+			case EParkourArrowType::Center :
+				Arrows[i]->ArrowColor = FColor::Red;
+				break;
+
+			case EParkourArrowType::Ceil:
+				Arrows[i]->ArrowColor = FColor::Green;
+			Arrows[i]->SetRelativeLocation(FVector(0, 0, 100));
+				break;
+
+			case EParkourArrowType::Floor:
+				Arrows[i]->ArrowColor = FColor::Blue;
+				Arrows[i]->SetRelativeLocation(FVector(0, 0, -80));
+				break;
+
+			case EParkourArrowType::Left:
+				Arrows[i]->ArrowColor = FColor::Magenta;
+				Arrows[i]->SetRelativeLocation(FVector(0, -30, 0));
+				break;
+
+			case EParkourArrowType::Right:
+				Arrows[i]->ArrowColor = FColor::Magenta;
+				Arrows[i]->SetRelativeLocation(FVector(0, 30, 0));
+				break;
+
+			case EParkourArrowType::Land:
+				Arrows[i]->ArrowColor = FColor::Yellow;
+				Arrows[i]->SetRelativeLocation(FVector(200, 0, 100));
+				Arrows[i]->SetRelativeRotation(FRotator(-90, 0, 0));
+				break;
+		}
+	}
 }
 
 void ACPlayer::BeginPlay()
