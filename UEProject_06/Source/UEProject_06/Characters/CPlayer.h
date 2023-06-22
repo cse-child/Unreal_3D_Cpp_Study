@@ -63,5 +63,8 @@ private:
 
 public:
 	void End_BackStep() override;
+
+private:
+	void OnRightButton();
 };
 

@@ -120,7 +120,8 @@ void ACPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	PlayerInputComponent->BindAction("Action", EInputEvent::IE_Pressed, Weapon, &UCWeaponComponent::DoAction);
 
-	PlayerInputComponent->BindAction("SubAction", EInputEvent::IE_Pressed, Weapon, &UCWeaponComponent::SubAction_Pressed);
+	//PlayerInputComponent->BindAction("SubAction", EInputEvent::IE_Pressed, Weapon, &UCWeaponComponent::SubAction_Pressed);
+	PlayerInputComponent->BindAction("SubAction", EInputEvent::IE_Pressed, this, &ACPlayer::OnRightButton);
 	PlayerInputComponent->BindAction("SubAction", EInputEvent::IE_Released, Weapon, &UCWeaponComponent::SubAction_Released);
 
 	PlayerInputComponent->BindAction("Fist", EInputEvent::IE_Pressed, Weapon, &UCWeaponComponent::SetFistMode);
@@ -163,5 +164,19 @@ void ACPlayer::End_BackStep()
 	Movement->DisableControlRotation(); // 일단 무조건 비활성화 (나중에 무기에따라 구분)
 
 	State->SetIdleMode();
+}
+
+void ACPlayer::OnRightButton()
+{
+	// Unarmed 모드에서만 Parkour 수행
+	if(Weapon->IsUnarmedMode())
+	{
+		Parkour->DoParkour();
+
+		return;
+	}
+
+	// Unarmed 모드가 아니라면 무기 별 SubAction 수행 (Skill)
+	Weapon->SubAction_Pressed();
 }
 
