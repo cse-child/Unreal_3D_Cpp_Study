@@ -1,6 +1,7 @@
 #include "Characters/CAnimInstance.h"
 #include "Global.h"
 #include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Weapons/SubActions/CSubAction_Aiming.h"
 
 void UCAnimInstance::NativeBeginPlay()
@@ -31,6 +32,8 @@ void UCAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	Direction = PrevRotation.Yaw;
 
 	Pitch = UKismetMathLibrary::FInterpTo(Pitch, OwnerCharacter->GetBaseAimRotation().Pitch, DeltaSeconds, 25);
+
+	bFalling = OwnerCharacter->GetCharacterMovement()->IsFalling();
 
 	if (!!Weapon)
 	{

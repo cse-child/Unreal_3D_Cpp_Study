@@ -20,6 +20,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
 		float Direction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Animation")
+		bool bFalling;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Bow")
 		bool bAim_Bow;
 

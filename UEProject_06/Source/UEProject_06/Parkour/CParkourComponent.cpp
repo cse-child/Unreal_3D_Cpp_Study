@@ -70,6 +70,7 @@ void UCParkourComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 		CheckTrace_Floor();
 		CheckTrace_LeftRight();
 	}
+	CheckTrace_Land();
 }
 
 void UCParkourComponent::LineTrace(EParkourArrowType InType)
@@ -138,6 +139,30 @@ void UCParkourComponent::CheckTrace_LeftRight()
 	LineTrace(EParkourArrowType::Right);
 }
 
+void UCParkourComponent::CheckTrace_Land()
+{
+	CheckFalse(OwnerCharacter->GetCharacterMovement()->IsFalling());
+
+	CheckTrue(bFalling);
+	bFalling = true;
+
+	UArrowComponent* arrow = Arrows[(int32)EParkourArrowType::Land];
+	FLinearColor color = FLinearColor(arrow->ArrowColor);
+
+	FTransform transform = arrow->GetComponentToWorld();
+	FVector start = transform.GetLocation();
+
+	const TArray<FParkourData>* datas = DataMap.Find(EParkourType::Fall);
+	FVector end = start + transform.GetRotation().GetForwardVector() * (*datas)[0].Extent;
+
+
+	TArray<AActor*> ignores;
+	ignores.Add(OwnerCharacter);
+
+	UKismetSystemLibrary::LineTraceSingle(GetWorld(), start, end, ETraceTypeQuery::TraceTypeQuery1, 
+		false, ignores, DebugType, HitResults[(int32)EParkourArrowType::Land], true, color, FLinearColor::White);
+}
+
 bool UCParkourComponent::Check_Obstacle()
 {
 	CheckNullResult(HitObstacle, false);
@@ -171,9 +196,16 @@ bool UCParkourComponent::Check_Obstacle()
 	return true;
 }
 
-void UCParkourComponent::DoParkour()
+void UCParkourComponent::DoParkour(bool bLanded)
 {
 	CheckFalse(Type == EParkourType::Max);
+
+	if(bLanded && Check_FallMode())
+	{
+		DoParkour_Fall();
+
+		return;
+	}
 
 	CheckFalse(Check_Obstacle()); // 여기가 Pass되면 모든 파쿠르 종류 수행 가능
 	if(Check_ClimbMode())
@@ -192,6 +224,7 @@ void UCParkourComponent::End_DoParkour()
 		End_DoParkour_Climb();
 		break;
 	case EParkourType::Fall:
+		End_DoParkour_Fall();
 		break;
 	case EParkourType::Slide:
 		break;
@@ -235,4 +268,66 @@ void UCParkourComponent::DoParkour_Climb()
 void UCParkourComponent::End_DoParkour_Climb()
 {
 	OwnerCharacter->GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Walking);
+}
+
+bool UCParkourComponent::Check_FallMode()
+{
+	CheckFalseResult(bFalling, false);
+	bFalling = false;
+
+	float distance = HitResults[(int32)EParkourArrowType::Land].Distance;
+
+	const TArray<FParkourData>* datas = DataMap.Find(EParkourType::Fall);
+
+	CheckFalseResult((*datas)[0].MinDistance < distance, false);
+	CheckFalseResult((*datas)[0].MaxDistance > distance, false);
+
+	return true;
+}
+
+void UCParkourComponent::DoParkour_Fall()
+{
+	Type = EParkourType::Fall;
+
+	(*DataMap.Find(EParkourType::Fall))[0].PlayMontage(OwnerCharacter);
+}
+
+void UCParkourComponent::End_DoParkour_Fall()
+{
+	
+}
+
+bool UCParkourComponent::Check_ObstacleMode(EParkourType InType, FParkourData& OutData)
+{
+	CheckTrueResult(HitResults[(int32)EParkourArrowType::Ceil].bBlockingHit, false);
+
+	const TArray<FParkourData>* datas = DataMap.Find(InType);
+	// datas->Num
+	// (*datas).Num
+	/* 두 가지의 차이는 자기자신이 직접 소유하고있는지 아닌지
+		- 직접접근
+		- 간접접근 (*datas).Num
+		포인터(*)를 사용하면 주소를 가르킬 뿐만 아니라 해당 주소에 있는 공간에 접근하는 것
+		따라서 datas 클래스의 공간에 접근해서 그 안에 존재하는 Num 값을 간접접근 연산자(.)로 바로 부를 수 있는 것 */
+
+	for (int32 i = 0; i < (*datas).Num(); i++)
+	{
+		bool b = true;
+		b &= (*datas)[i].MinDistance < HitDistance;
+		b &= (*datas)[i].MaxDistance > HitDistance;
+		b &= FMath::IsNearlyEqual((*datas)[i].Extent, HitObstacleExtent.Y, 10);
+
+		OutData = (*datas)[i];
+		CheckTrueResult(b, true);
+	}
+
+	return false;
+}
+
+void UCParkourComponent::DoParkour_Obstacle(EParkourType InType, FParkourData& InData)
+{
+}
+
+void UCParkourComponent::End_DoParkour_Obstacle()
+{
 }

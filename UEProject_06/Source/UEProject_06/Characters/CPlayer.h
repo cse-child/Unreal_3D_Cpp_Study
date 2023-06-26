@@ -66,5 +66,8 @@ public:
 
 private:
 	void OnRightButton();
+
+public:
+	virtual void Landed(const FHitResult& Hit) override;
 };
 

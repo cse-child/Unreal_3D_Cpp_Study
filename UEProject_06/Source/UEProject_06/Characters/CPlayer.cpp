@@ -180,3 +180,10 @@ void ACPlayer::OnRightButton()
 	Weapon->SubAction_Pressed();
 }
 
+void ACPlayer::Landed(const FHitResult& Hit)
+{
+	Super::Landed(Hit);
+
+	Parkour->DoParkour(true);
+}
+

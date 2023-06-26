@@ -87,19 +87,29 @@ private:
 	void CheckTrace_Ceil();
 	void CheckTrace_Floor();
 	void CheckTrace_LeftRight();
-	//void CheckTrace_Land();
+	void CheckTrace_Land();
 
 private:
 	bool Check_Obstacle();
 
 public:
-	void DoParkour();
+	void DoParkour(bool bLanded = false);
 	void End_DoParkour();
 
 private:
 	bool Check_ClimbMode();
 	void DoParkour_Climb();
 	void End_DoParkour_Climb();
+
+private:
+	bool Check_FallMode();
+	void DoParkour_Fall();
+	void End_DoParkour_Fall();
+
+private:
+	bool Check_ObstacleMode(EParkourType InType, FParkourData& OutData);
+	void DoParkour_Obstacle(EParkourType InType, FParkourData& InData);
+	void End_DoParkour_Obstacle();
 
 private:
 	class ACharacter* OwnerCharacter;
@@ -117,4 +127,7 @@ private:
 
 private:
 	TMap<EParkourType, TArray<FParkourData>> DataMap;
+
+private:
+	bool bFalling;
 };
