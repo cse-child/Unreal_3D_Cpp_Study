@@ -214,6 +214,36 @@ void UCParkourComponent::DoParkour(bool bLanded)
 
 		return;
 	}
+
+	FParkourData data;
+	if(Check_ObstacleMode(EParkourType::Normal, data))
+	{
+		DoParkour_Obstacle(EParkourType::Normal, data);
+
+		return;
+	}
+
+	if (Check_ObstacleMode(EParkourType::Short, data))
+	{
+		DoParkour_Obstacle(EParkourType::Short, data);
+
+		return;
+	}
+
+	if (Check_ObstacleMode(EParkourType::Wall, data))
+	{
+		DoParkour_Obstacle(EParkourType::Wall, data);
+
+		return;
+	}
+
+	if(Check_SlideMode())
+	{
+		DoParkour_Slide();
+
+		return;
+	}
+
 }
 
 void UCParkourComponent::End_DoParkour()
@@ -227,15 +257,14 @@ void UCParkourComponent::End_DoParkour()
 		End_DoParkour_Fall();
 		break;
 	case EParkourType::Slide:
+		End_DoParkour_Slide();
 		break;
 	case EParkourType::Short:
-		break;
 	case EParkourType::Normal:
-		break;
 	case EParkourType::Wall:
+		End_DoParkour_Obstacle();
 		break;
 	}
-
 	Type = EParkourType::Max;
 }
 
@@ -294,7 +323,6 @@ void UCParkourComponent::DoParkour_Fall()
 
 void UCParkourComponent::End_DoParkour_Fall()
 {
-	
 }
 
 bool UCParkourComponent::Check_ObstacleMode(EParkourType InType, FParkourData& OutData)
@@ -302,14 +330,8 @@ bool UCParkourComponent::Check_ObstacleMode(EParkourType InType, FParkourData& O
 	CheckTrueResult(HitResults[(int32)EParkourArrowType::Ceil].bBlockingHit, false);
 
 	const TArray<FParkourData>* datas = DataMap.Find(InType);
-	// datas->Num
-	// (*datas).Num
-	/* 두 가지의 차이는 자기자신이 직접 소유하고있는지 아닌지
-		- 직접접근
-		- 간접접근 (*datas).Num
-		포인터(*)를 사용하면 주소를 가르킬 뿐만 아니라 해당 주소에 있는 공간에 접근하는 것
-		따라서 datas 클래스의 공간에 접근해서 그 안에 존재하는 Num 값을 간접접근 연산자(.)로 바로 부를 수 있는 것 */
-
+	// datas->Num	: 간접참조
+	// (*datas).Num	: 직접참조
 	for (int32 i = 0; i < (*datas).Num(); i++)
 	{
 		bool b = true;
@@ -320,14 +342,76 @@ bool UCParkourComponent::Check_ObstacleMode(EParkourType InType, FParkourData& O
 		OutData = (*datas)[i];
 		CheckTrueResult(b, true);
 	}
-
 	return false;
 }
 
 void UCParkourComponent::DoParkour_Obstacle(EParkourType InType, FParkourData& InData)
 {
+	Type = InType;
+
+	OwnerCharacter->SetActorRotation(FRotator(0, ToFrontYaw, 0));
+	InData.PlayMontage(OwnerCharacter);
+
+	BackupObstacle = HitObstacle;
+	BackupObstacle->SetActorEnableCollision(false);
 }
 
 void UCParkourComponent::End_DoParkour_Obstacle()
 {
+	BackupObstacle->SetActorEnableCollision(true);
+	BackupObstacle = NULL;
+}
+
+bool UCParkourComponent::Check_SlideMode()
+{
+	CheckTrueResult(HitResults[(int32)EParkourArrowType::Floor].bBlockingHit, false);
+
+	/* 파쿠르 거리 체크 */
+	const TArray<FParkourData>* datas = DataMap.Find(EParkourType::Slide);
+	CheckFalseResult((*datas)[0].MinDistance < HitDistance, false);
+	CheckFalseResult((*datas)[0].MaxDistance > HitDistance, false);
+
+	/* Box Trace 검사 */
+	UArrowComponent* arrow = Arrows[(int32)EParkourArrowType::Floor];
+	FLinearColor color = FLinearColor(arrow->ArrowColor);
+
+	FTransform transform = arrow->GetComponentToWorld();
+
+	FVector arrowLocation = transform.GetLocation();
+	FVector ownerLocation = OwnerCharacter->GetActorLocation();
+
+	float extent = (*datas)[0].Extent;
+	float z = arrowLocation.Z + extent;
+
+	FVector forward = OwnerCharacter->GetActorForwardVector();
+	forward = FVector(forward.X, forward.Y, 0);
+	
+	FVector start = FVector(arrowLocation.X, arrowLocation.Y, z);
+	FVector end = start + forward * TraceDistance;
+
+	TArray<AActor*> ignores;
+	FHitResult hitResult;
+
+	UKismetSystemLibrary::BoxTraceSingle(GetWorld(), start, end, FVector(0, extent, extent), 
+		OwnerCharacter->GetActorRotation(), ETraceTypeQuery::TraceTypeQuery1, false, ignores, DebugType, hitResult, true);
+	CheckTrueResult(hitResult.bBlockingHit, false); // hitResult가 True면 막혀있으므로 파쿠르 불가능
+
+	return true;
+}
+
+void UCParkourComponent::DoParkour_Slide()
+{
+	Type = EParkourType::Slide;
+
+	OwnerCharacter->SetActorRotation(FRotator(0, ToFrontYaw, 0));
+	(*DataMap.Find(EParkourType::Slide))[0].PlayMontage(OwnerCharacter);
+
+	BackupObstacle = HitObstacle;
+	BackupObstacle->SetActorEnableCollision(false);
+}
+
+void UCParkourComponent::End_DoParkour_Slide()
+{
+	BackupObstacle->SetActorEnableCollision(true);
+	BackupObstacle = NULL;
 }

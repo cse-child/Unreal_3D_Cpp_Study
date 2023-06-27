@@ -112,6 +112,11 @@ private:
 	void End_DoParkour_Obstacle();
 
 private:
+	bool Check_SlideMode();
+	void DoParkour_Slide();
+	void End_DoParkour_Slide();
+
+private:
 	class ACharacter* OwnerCharacter;
 	class UArrowComponent* Arrows[(int32)EParkourArrowType::Max];
 
@@ -130,4 +135,7 @@ private:
 
 private:
 	bool bFalling;
+
+private:
+	AActor* BackupObstacle;
 };
