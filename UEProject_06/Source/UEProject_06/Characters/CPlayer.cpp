@@ -8,6 +8,8 @@
 #include "Components/CMovementComponent.h"
 #include "Components/CStateComponent.h"
 #include "Components/CMontagesComponent.h"
+#include "Components/CZoomComponent.h"
+#include "Components/CFeetComponent.h"
 #include "Parkour/CParkourComponent.h"
 #include "Components/InputComponent.h"
 #include "Components/ArrowComponent.h"
@@ -23,6 +25,8 @@ ACPlayer::ACPlayer()
 	CHelpers::CreateActorComponent<UCStateComponent>(this, &State, "State");
 	CHelpers::CreateActorComponent<UCMontagesComponent>(this, &Montages, "Montages");
 	CHelpers::CreateActorComponent<UCParkourComponent>(this, &Parkour, "Parkour");
+	CHelpers::CreateActorComponent<UCZoomComponent>(this, &Zoom, "Zoom");
+	CHelpers::CreateActorComponent<UCFeetComponent>(this, &Feet, "Feet");
 
 	/* Mesh */
 	GetMesh()->SetRelativeLocation(FVector(0, 0, -90));
@@ -112,6 +116,8 @@ void ACPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("MoveRight", Movement, &UCMovementComponent::OnMoveRight);
 	PlayerInputComponent->BindAxis("HorizontalLook", Movement, &UCMovementComponent::OnHorizontalLook);
 	PlayerInputComponent->BindAxis("VerticalLook", Movement, &UCMovementComponent::OnVerticalLook);
+	//PlayerInputComponent->BindAxis("Zoom", Zoom, &UCZoomComponent::SetZoomValue);
+	PlayerInputComponent->BindAxis("Zoom", this, &ACPlayer::SetZooming);
 
 	PlayerInputComponent->BindAction("Sprint", EInputEvent::IE_Pressed, Movement, &UCMovementComponent::OnSprint);
 	PlayerInputComponent->BindAction("Sprint", EInputEvent::IE_Released, Movement, &UCMovementComponent::OnRun);
@@ -185,5 +191,12 @@ void ACPlayer::Landed(const FHitResult& Hit)
 	Super::Landed(Hit);
 
 	Parkour->DoParkour(true);
+}
+
+void ACPlayer::SetZooming(float InValue)
+{
+	CheckTrue(Weapon->IsBowMode());
+
+	Zoom->SetZoomValue(InValue);
 }
 

@@ -3,6 +3,8 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Weapons/SubActions/CSubAction_Aiming.h"
+#include "Parkour/CParkourComponent.h"
+#include "Components/CFeetComponent.h"
 
 void UCAnimInstance::NativeBeginPlay()
 {
@@ -41,6 +43,27 @@ void UCAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 		if (!!aiming)
 			bAim_Bow = aiming->GetAiming();
+	}
+
+	/* Parkour 도중에는 IK를 적용되지 않도록 함 */
+	UCParkourComponent* parkour = CHelpers::GetComponent<UCParkourComponent>(OwnerCharacter);
+	UCFeetComponent* feet = CHelpers::GetComponent<UCFeetComponent>(OwnerCharacter);
+
+	bFeet = false;
+
+	/* 수업이니까 Unarmed 모드에만 IK가 적용되도록 제한함 */
+	if (Weapon->IsUnarmedMode() == false)
+		return;
+
+	if(!!parkour && !!feet)
+	{
+		bFeet = parkour->IsExecuting() == false;
+		FeetData = feet->GetData();
+	}
+	else if(!!feet) // Parkour는 할당X, Feet만 할당O => Enemy
+	{
+		bFeet = true;
+		FeetData = feet->GetData();
 	}
 }
 
