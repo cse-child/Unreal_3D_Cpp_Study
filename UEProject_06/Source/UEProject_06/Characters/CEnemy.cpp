@@ -13,7 +13,6 @@
 ACEnemy::ACEnemy()
 {
 	/* Component Ãß°¡ */
-	CHelpers::CreateActorComponent<UCWeaponComponent>(this, &Weapon, "Weapon");
 	CHelpers::CreateActorComponent<UCMovementComponent>(this, &Movement, "Movement");
 	CHelpers::CreateActorComponent<UCStateComponent>(this, &State, "State");
 	CHelpers::CreateActorComponent<UCMontagesComponent>(this, &Montages, "Montages");

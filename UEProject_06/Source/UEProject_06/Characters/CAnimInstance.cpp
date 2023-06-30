@@ -51,6 +51,8 @@ void UCAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 	bFeet = false;
 
+	CheckNull(Weapon);
+
 	/* 수업이니까 Unarmed 모드에만 IK가 적용되도록 제한함 */
 	if (Weapon->IsUnarmedMode() == false)
 		return;

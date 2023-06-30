@@ -11,14 +11,11 @@ class UEPROJECT_06_API ACEnemy : public ACharacter, public IICharacter
 {
 	GENERATED_BODY()
 
-private:
+protected:
 	UPROPERTY(EditAnywhere, Category = "Color")
 		FLinearColor OriginColor = FLinearColor::White;
 
-private:
-	UPROPERTY(VisibleDefaultsOnly)
-		class UCWeaponComponent* Weapon;
-
+protected:
 	UPROPERTY(VisibleDefaultsOnly)
 		class UCMovementComponent* Movement;
 
