@@ -13,5 +13,6 @@ public class UEProject_06 : ModuleRules
         PublicDependencyModuleNames.Add("Engine");
         PublicDependencyModuleNames.Add("InputCore");
         PublicDependencyModuleNames.Add("Niagara");
+        PublicDependencyModuleNames.Add("AIModule");
     }
 }

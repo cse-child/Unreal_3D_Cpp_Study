@@ -9,9 +9,19 @@ class UEPROJECT_06_API ACEnemy_AI : public ACEnemy
 {
 	GENERATED_BODY()
 
+private:
+	UPROPERTY(EditDefaultsOnly, Category = "AI")
+		class UBehaviorTree* BehaviorTree;
+
 protected:
 	UPROPERTY(VisibleDefaultsOnly)
 		class UCWeaponComponent* Weapon;
+
+	UPROPERTY(VisibleDefaultsOnly)
+		class UCAIBehaviorComponent* Behavior;
+
+public:
+	FORCEINLINE class UBehaviorTree* GetBehaviorTree() { return BehaviorTree; }
 
 public:
 	ACEnemy_AI();
@@ -19,3 +29,6 @@ public:
 protected:
 	virtual void BeginPlay() override;
 };
+
+
+
