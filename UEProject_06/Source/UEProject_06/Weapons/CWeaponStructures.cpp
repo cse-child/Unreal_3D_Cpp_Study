@@ -52,7 +52,6 @@ void FHitData::SendDamage(ACharacter* InAttacker, AActor* InAttackerCauser, ACha
 {
 	// BP에서는
 	// ApplyDamage를 Call하면 TakeDamage를 Call한다.
-	// TakeDamage에서는 Recieve Damage를 콜? AnyDamage?? 머라노
 
 	FActionDamageEvent e;
 	e.HitData = this; // this의 HitData를 전달

@@ -89,6 +89,7 @@ void ACEnemy::Hitted()
 	/* HP-Damage 贸府 */
 	Status->Damage(Damage.Power);
 	Damage.Power = 0;
+	
 
 	/* 荤噶贸府 */
 	if(Status->GetHealth() <= 0.0f)

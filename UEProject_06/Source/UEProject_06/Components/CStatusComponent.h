@@ -16,6 +16,7 @@ private:
 
 public:
 	FORCEINLINE float GetHealth() { return Health; }
+	FORCEINLINE float GetMaxHealth() { return MaxHealth; }
 
 public:	
 	UCStatusComponent();

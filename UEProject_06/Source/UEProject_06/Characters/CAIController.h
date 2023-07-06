@@ -10,6 +10,10 @@ class UEPROJECT_06_API ACAIController : public AAIController
 {
 	GENERATED_BODY()
 
+private:
+	UPROPERTY(VisibleAnywhere)
+		class UAIPerceptionComponent* Perception;
+
 public:
 	ACAIController();
 
@@ -21,8 +25,16 @@ protected:
 	virtual void OnUnPossess() override;
 
 private:
+	UFUNCTION()
+		void OnPerceptionUpdated(const TArray<AActor*>& UpdatedActors);
+
+private:
 	class ACEnemy_AI* Enemy;
 	class UCAIBehaviorComponent* Behavior;
+
+	class UAISenseConfig_Sight* Sight;
 };
+
+
 
 

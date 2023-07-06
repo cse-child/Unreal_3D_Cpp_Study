@@ -5,12 +5,17 @@
 #include "GameFramework/Character.h"
 #include "Components/CStateComponent.h"
 #include "Parkour/CParkourComponent.h"
+#include "GenericTeamAgentInterface.h"
 #include "CPlayer.generated.h"
 
 UCLASS()
-class UEPROJECT_06_API ACPlayer : public ACharacter, public IICharacter
+class UEPROJECT_06_API ACPlayer : public ACharacter, public IICharacter, public IGenericTeamAgentInterface
 {
 	GENERATED_BODY()
+
+private:
+	UPROPERTY(EditDefaultsOnly, Category = "Team")
+		uint8 TeamID = 1;
 
 private:
 	UPROPERTY(VisibleDefaultsOnly)
@@ -54,8 +59,10 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	virtual FGenericTeamId GetGenericTeamId() const override { return FGenericTeamId(TeamID); } // 
 
 private:
 	void OnAvoid();

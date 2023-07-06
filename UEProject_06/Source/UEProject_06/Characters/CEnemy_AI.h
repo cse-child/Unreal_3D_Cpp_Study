@@ -13,6 +13,13 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 		class UBehaviorTree* BehaviorTree;
 
+	UPROPERTY(EditDefaultsOnly, Category = "AI")
+		uint8 TeamID = 2;
+
+private:
+	UPROPERTY(EditDefaultsOnly)
+		class UWidgetComponent* LabelWidget;
+
 protected:
 	UPROPERTY(VisibleDefaultsOnly)
 		class UCWeaponComponent* Weapon;
@@ -22,13 +29,14 @@ protected:
 
 public:
 	FORCEINLINE class UBehaviorTree* GetBehaviorTree() { return BehaviorTree; }
+	FORCEINLINE uint8 GetTeamID() { return TeamID; }
 
 public:
 	ACEnemy_AI();
 
 protected:
 	virtual void BeginPlay() override;
+
+public:
+	virtual void Tick(float DeltaTime) override;
 };
-
-
-
