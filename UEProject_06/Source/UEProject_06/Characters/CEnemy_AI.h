@@ -17,6 +17,14 @@ private:
 		uint8 TeamID = 2;
 
 private:
+	UPROPERTY(EditInstanceOnly, Category = "AI")
+		TSoftObjectPtr<class ACPatrolPath> PatrolPath;
+
+private:
+	UPROPERTY(EditDefaultsOnly, Category = "AI")
+		float LabelViewAmount = 3000;
+
+private:
 	UPROPERTY(EditDefaultsOnly)
 		class UWidgetComponent* LabelWidget;
 
@@ -31,6 +39,8 @@ public:
 	FORCEINLINE class UBehaviorTree* GetBehaviorTree() { return BehaviorTree; }
 	FORCEINLINE uint8 GetTeamID() { return TeamID; }
 
+	FORCEINLINE class ACPatrolPath* GetPatrolPath() { return PatrolPath.Get(); }
+
 public:
 	ACEnemy_AI();
 
@@ -39,4 +49,7 @@ protected:
 
 public:
 	virtual void Tick(float DeltaTime) override;
+
+private:
+	void UpdateLabelRenderScale();
 };

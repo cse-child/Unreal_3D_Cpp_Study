@@ -43,5 +43,30 @@ void ACEnemy_AI::Tick(float DeltaTime)
 	if(!!label)
 	{
 		label->UpdateHealth(Status->GetHealth(), Status->GetMaxHealth());
+
+		UpdateLabelRenderScale();
 	}
+}
+
+void ACEnemy_AI::UpdateLabelRenderScale()
+{
+	UCUserWidget_Label* label = Cast<UCUserWidget_Label>(LabelWidget->GetUserWidgetObject());
+	CheckNull(label);
+
+	APlayerCameraManager* cameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
+
+	FVector cameraLocation = cameraManager->GetCameraLocation();
+	FVector targetLocation = GetController()->GetTargetLocation();
+
+	float distance = FVector::Distance(cameraLocation, targetLocation);
+	float sizeRate = 1.0f - (distance / LabelViewAmount); // ºñ·Ê½Ä
+
+	if (distance > LabelViewAmount)
+	{
+		label->SetVisibility(ESlateVisibility::Collapsed);
+		return;
+	}
+
+	label->SetVisibility(ESlateVisibility::Visible);
+	label->SetRenderScale(FVector2D(sizeRate, sizeRate));
 }

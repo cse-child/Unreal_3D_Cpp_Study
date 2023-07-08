@@ -14,5 +14,7 @@ public class UEProject_06 : ModuleRules
         PublicDependencyModuleNames.Add("InputCore");
         PublicDependencyModuleNames.Add("Niagara");
         PublicDependencyModuleNames.Add("AIModule");
+        PublicDependencyModuleNames.Add("GameplayTasks");
+        PublicDependencyModuleNames.Add("NavigationSystem");
     }
 }

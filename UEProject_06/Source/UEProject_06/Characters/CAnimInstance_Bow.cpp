@@ -9,4 +9,6 @@ void UCAnimInstance_Bow::NativeBeginPlay()
 void UCAnimInstance_Bow::NativeUpdateAnimation(float DeltaSeconds)
 {
 	Super::NativeUpdateAnimation(DeltaSeconds);
+
+
 }
