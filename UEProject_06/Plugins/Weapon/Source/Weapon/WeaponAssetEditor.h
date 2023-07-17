@@ -45,7 +45,3 @@ private:
 	static const FName LeftAreaTabId;
 	static const FName DetailTabId;
 };
-
-
-
-

@@ -3,6 +3,7 @@
 #include "CPatrolPath.h"
 #include "NavigationSystem.h"
 #include "Components/SplineComponent.h"
+#include "Components/CAIBehaviorComponent.h"
 #include "Characters/CEnemy_AI.h"
 #include "Characters/CAIController.h"
 
@@ -20,9 +21,11 @@ EBTNodeResult::Type UCBTTaskNode_Patrol::ExecuteTask(UBehaviorTreeComponent & Ow
 	ACAIController* controller = Cast<ACAIController>(OwnerComp.GetOwner());
 	ACEnemy_AI* ai = Cast<ACEnemy_AI>(controller->GetPawn());
 
+	UCAIBehaviorComponent* behavior = CHelpers::GetComponent<UCAIBehaviorComponent>(ai);
+
 	if (!!ai->GetPatrolPath())
 	{
-		Location = ai->GetPatrolPath()->GetMoveTo();
+		behavior->SetPatrolLocation(ai->GetPatrolPath()->GetMoveTo());
 
 		return EBTNodeResult::InProgress;
 	}
@@ -36,10 +39,10 @@ EBTNodeResult::Type UCBTTaskNode_Patrol::ExecuteTask(UBehaviorTreeComponent & Ow
 	FNavLocation point(location);
 	if (navSystem->GetRandomPointInNavigableRadius(location, Distance, point))
 	{
-		Location = point.Location;
+		behavior->SetPatrolLocation(point.Location);
 
 		if (bDebugMode)
-			DrawDebugSphere(ai->GetWorld(), Location, 25, 25, FColor::Green, true, 5);
+			DrawDebugSphere(ai->GetWorld(), point.Location, 25, 25, FColor::Green, true, 5);
 
 		return EBTNodeResult::InProgress;
 	}
@@ -54,7 +57,10 @@ void UCBTTaskNode_Patrol::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* Nod
 	ACAIController* controller = Cast<ACAIController>(OwnerComp.GetOwner());
 	ACEnemy_AI* ai = Cast<ACEnemy_AI>(controller->GetPawn());
 
-	EPathFollowingRequestResult::Type result = controller->MoveToLocation(Location, AcceptanceDistance, false);
+	UCAIBehaviorComponent* behavior = CHelpers::GetComponent<UCAIBehaviorComponent>(ai);
+
+	FVector location = behavior->GetPatrolLocation();
+	EPathFollowingRequestResult::Type result = controller->MoveToLocation(location, AcceptanceDistance, false);
 
 	switch (result)
 	{

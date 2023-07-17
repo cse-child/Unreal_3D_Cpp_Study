@@ -30,6 +30,8 @@ public:
 	FORCEINLINE bool IsAroundMode() { return Type == EWeaponType::Around; }
 	FORCEINLINE bool IsBowMode() { return Type == EWeaponType::Bow; }
 
+	FORCEINLINE EWeaponType GetWeaponType() { return Type; }
+
 public:	
 	UCWeaponComponent();
 
@@ -73,6 +75,10 @@ private:
 	class ACharacter* OwnerCharacter;
 
 	EWeaponType Type = EWeaponType::Max;
+
+private:
+	class UCWeaponData* Datas[(int32)EWeaponType::Max];
+	
 };
 
 

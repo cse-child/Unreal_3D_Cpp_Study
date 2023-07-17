@@ -50,14 +50,6 @@ FWeaponStyle::~FWeaponStyle()
 void FWeaponStyle::RegisterIcon(const FString& InName, const FString& InPath, const FVector2D& InIconSize,
 	FSlateIcon& OutSlateIcon)
 {
-	// InName : Style 각각의 이름
-	// brush : 뭔가를 표현하기 위한 객체 (image brush, font brush..)
-	FSlateImageBrush* brush = new FSlateImageBrush(InPath, InIconSize);
-
-	FString name = StyleSetName.ToString() + "." + InName; // StyleSetName 앞에 . 을 붙이는 것이 규칙
-	StyleSet->Set(FName(name), brush); // 사용할 Style 등록
-
-	// 실제로 사용할 Icon 생성
-	OutSlateIcon = FSlateIcon(FName(StyleSetName), FName(name));
+	
 }
 

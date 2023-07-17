@@ -1,5 +1,6 @@
 #include "Characters/CEnemy_AI.h"
 #include "Global.h"
+#include "BehaviorTree/CPatrolPath.h"
 #include "Components/CWeaponComponent.h"
 #include "Components/CAIBehaviorComponent.h"
 #include "Components/CStatusComponent.h"

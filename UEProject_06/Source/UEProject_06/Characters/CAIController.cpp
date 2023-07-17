@@ -68,7 +68,7 @@ void ACAIController::OnPerceptionUpdated(const TArray<AActor*>& UpdatedActors)
 	if(actors.Num() > 0)
 	{
 		Blackboard->SetValueAsObject("Target", actors[0]);
-		CLog::Log(actors[0]->GetName());
+		//CLog::Log(actors[0]->GetName());
 		return;
 	}
 

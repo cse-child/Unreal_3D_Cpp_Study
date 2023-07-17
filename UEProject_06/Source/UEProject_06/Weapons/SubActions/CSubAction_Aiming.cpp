@@ -37,7 +37,7 @@ void UCSubAction_Aiming::Tick_Implementation(float InDeltaTime)
 
 	Timeline.TickTimeline(InDeltaTime);
 	*Bending += InDeltaTime * 0.1f;
-	CLog::Print(*Bending, 1);
+	//CLog::Print(*Bending, 1);
 }
 
 void UCSubAction_Aiming::OnAiming(FVector Output)

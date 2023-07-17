@@ -4,6 +4,7 @@
 #include "CDoAction.h"
 #include "CEquipment.h"
 #include "CSubAction.h"
+#include "CWeaponData.h"
 #include "GameFramework/Character.h"
 
 UCWeaponAsset::UCWeaponAsset()
@@ -13,8 +14,9 @@ UCWeaponAsset::UCWeaponAsset()
 	SubActionClass = UCSubAction::StaticClass();
 }
 
-void UCWeaponAsset::BeginPlay(ACharacter* InOwner)
+void UCWeaponAsset::BeginPlay(ACharacter* InOwner, UCWeaponData** OutWeaponData)
 {
+	ACAttachment* Attachment = nullptr;
 	if(!!AttachmentClass)
 	{
 		FActorSpawnParameters params;
@@ -23,6 +25,7 @@ void UCWeaponAsset::BeginPlay(ACharacter* InOwner)
 		Attachment = InOwner->GetWorld()->SpawnActor<ACAttachment>(AttachmentClass, params);
 	}
 
+	UCEquipment* Equipment = nullptr;
 	if(!!EquipmentClass)
 	{
 		Equipment = NewObject<UCEquipment>(this, EquipmentClass);
@@ -35,6 +38,7 @@ void UCWeaponAsset::BeginPlay(ACharacter* InOwner)
 		}
 	}
 
+	UCDoAction* DoAction = nullptr;
 	if(!!DoActionClass)
 	{
 		DoAction = NewObject<UCDoAction>(this, DoActionClass);
@@ -58,11 +62,18 @@ void UCWeaponAsset::BeginPlay(ACharacter* InOwner)
 		}
 	}
 
+	UCSubAction* SubAction = nullptr;
 	if(!!SubActionClass)
 	{
 		SubAction = NewObject<UCSubAction>(this, SubActionClass);
 		SubAction->BeginPlay(InOwner, Attachment, DoAction);
 	}
+
+	*OutWeaponData = NewObject<UCWeaponData>();
+	(*OutWeaponData)->Attachment = Attachment;
+	(*OutWeaponData)->Equipment = Equipment;
+	(*OutWeaponData)->DoAction = DoAction;
+	(*OutWeaponData)->SubAction = SubAction;
 }
 
 #if WITH_EDITOR
