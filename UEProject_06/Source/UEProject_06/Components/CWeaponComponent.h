@@ -22,6 +22,9 @@ private:
 		class UCWeaponAsset* DataAssets[(int32)EWeaponType::Max];
 
 public:
+	FORCEINLINE EWeaponType GetWeaponType() { return Type; }
+
+public:
 	FORCEINLINE bool IsUnarmedMode() { return Type == EWeaponType::Max; }
 	FORCEINLINE bool IsFistMode() { return Type == EWeaponType::Fist; }
 	FORCEINLINE bool IsSwordMode() { return Type == EWeaponType::Sword; }
@@ -29,8 +32,6 @@ public:
 	FORCEINLINE bool IsWarpMode() { return Type == EWeaponType::Warp; }
 	FORCEINLINE bool IsAroundMode() { return Type == EWeaponType::Around; }
 	FORCEINLINE bool IsBowMode() { return Type == EWeaponType::Bow; }
-
-	FORCEINLINE EWeaponType GetWeaponType() { return Type; }
 
 public:	
 	UCWeaponComponent();

@@ -12,39 +12,38 @@
 UCWeaponComponent::UCWeaponComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-
 }
 
 ACAttachment * UCWeaponComponent::GetAttachment()
 {
 	CheckTrueResult(IsUnarmedMode(), nullptr);
-	CheckFalseResult(!!DataAssets[(int32)Type], nullptr);
+	CheckFalseResult(!!Datas[(int32)Type], nullptr);
 
-	return DataAssets[(int32)Type]->GetAttachment();
+	return Datas[(int32)Type]->GetAttachment();
 }
 
 UCEquipment * UCWeaponComponent::GetEquipment()
 {
 	CheckTrueResult(IsUnarmedMode(), nullptr);
-	CheckFalseResult(!!DataAssets[(int32)Type], nullptr);
+	CheckFalseResult(!!Datas[(int32)Type], nullptr);
 
-	return DataAssets[(int32)Type]->GetEquipment();
+	return Datas[(int32)Type]->GetEquipment();
 }
 
 UCDoAction * UCWeaponComponent::GetDoAction()
 {
 	CheckTrueResult(IsUnarmedMode(), nullptr);
-	CheckFalseResult(!!DataAssets[(int32)Type], nullptr);
+	CheckFalseResult(!!Datas[(int32)Type], nullptr);
 
-	return DataAssets[(int32)Type]->GetDoAction();
+	return Datas[(int32)Type]->GetDoAction();
 }
 
 UCSubAction* UCWeaponComponent::GetSubAction()
 {
 	CheckTrueResult(IsUnarmedMode(), nullptr);
-	CheckFalseResult(!!DataAssets[(int32)Type], nullptr);
+	CheckFalseResult(!!Datas[(int32)Type], nullptr);
 
-	return DataAssets[(int32)Type]->GetSubAction();
+	return Datas[(int32)Type]->GetSubAction();
 }
 
 void UCWeaponComponent::BeginPlay()
@@ -55,7 +54,9 @@ void UCWeaponComponent::BeginPlay()
 	for (int32 i = 0; i < (int32)EWeaponType::Max; i++)
 	{
 		if (!!DataAssets[i])
-			DataAssets[i]->BeginPlay(OwnerCharacter);
+		{
+			DataAssets[i]->BeginPlay(OwnerCharacter, &Datas[i]);
+		}
 	}
 }
 
@@ -155,9 +156,9 @@ void UCWeaponComponent::SetMode(EWeaponType InType)
 		GetEquipment()->Unequip();
 	}
 
-	if (!!DataAssets[(int32)InType])
+	if (!!Datas[(int32)InType])
 	{
-		DataAssets[(int32)InType]->GetEquipment()->Equip();
+		Datas[(int32)InType]->GetEquipment()->Equip();
 
 		ChangeType(InType);
 	}
@@ -171,6 +172,3 @@ void UCWeaponComponent::ChangeType(EWeaponType InType)
 	if (OnWeaponTypeChange.IsBound())
 		OnWeaponTypeChange.Broadcast(prevType, InType);
 }
-
-
-

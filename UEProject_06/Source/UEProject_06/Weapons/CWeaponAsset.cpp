@@ -16,64 +16,65 @@ UCWeaponAsset::UCWeaponAsset()
 
 void UCWeaponAsset::BeginPlay(ACharacter* InOwner, UCWeaponData** OutWeaponData)
 {
-	ACAttachment* Attachment = nullptr;
+	ACAttachment* attachment = nullptr;  // 별도의 객체로 선언한 뒤, WeaponData를 초기화
 	if(!!AttachmentClass)
 	{
 		FActorSpawnParameters params;
 		params.Owner = InOwner;
 
-		Attachment = InOwner->GetWorld()->SpawnActor<ACAttachment>(AttachmentClass, params);
+		attachment = InOwner->GetWorld()->SpawnActor<ACAttachment>(AttachmentClass, params);
 	}
 
-	UCEquipment* Equipment = nullptr;
+	UCEquipment* equipment = nullptr;
 	if(!!EquipmentClass)
 	{
-		Equipment = NewObject<UCEquipment>(this, EquipmentClass);
-		Equipment->BeginPlay(InOwner, EquipmentData);
+		equipment = NewObject<UCEquipment>(this, EquipmentClass);
+		equipment->BeginPlay(InOwner, EquipmentData);
 
-		if(!!Attachment)
+		if(!!attachment)
 		{
-			Equipment->OnEquipmentBeginEquip.AddDynamic(Attachment, &ACAttachment::OnBeginEquip);
-			Equipment->OnEquipmentUnequip.AddDynamic(Attachment, &ACAttachment::OnUnequip);
+			equipment->OnEquipmentBeginEquip.AddDynamic(attachment, &ACAttachment::OnBeginEquip);
+			equipment->OnEquipmentUnequip.AddDynamic(attachment, &ACAttachment::OnUnequip);
 		}
 	}
 
-	UCDoAction* DoAction = nullptr;
+	UCDoAction* doAction = nullptr;
 	if(!!DoActionClass)
 	{
-		DoAction = NewObject<UCDoAction>(this, DoActionClass);
-		DoAction->BeginPlay(Attachment, Equipment, InOwner, DoActionDatas, HitDatas);
+		doAction = NewObject<UCDoAction>(this, DoActionClass);
+		doAction->BeginPlay(attachment, equipment, InOwner, DoActionDatas, HitDatas);
 
-		if (!!Attachment)
+		if (!!attachment)
 		{
-			Attachment->OnAttachmentBeginCollision.AddDynamic(DoAction, &UCDoAction::OnAttachmentBeginCollision);
-			Attachment->OnAttachmentEndCollision.AddDynamic(DoAction, &UCDoAction::OnAttachmentEndCollision);
+			attachment->OnAttachmentBeginCollision.AddDynamic(doAction, &UCDoAction::OnAttachmentBeginCollision);
+			attachment->OnAttachmentEndCollision.AddDynamic(doAction, &UCDoAction::OnAttachmentEndCollision);
 
-			Attachment->OnAttachmentBeginOverlap.AddDynamic(DoAction, &UCDoAction::OnAttachmentBeginOverlap);
-			Attachment->OnAttachmentEndOverlap.AddDynamic(DoAction, &UCDoAction::OnAttachmentEndOverlap);
+			attachment->OnAttachmentBeginOverlap.AddDynamic(doAction, &UCDoAction::OnAttachmentBeginOverlap);
+			attachment->OnAttachmentEndOverlap.AddDynamic(doAction, &UCDoAction::OnAttachmentEndOverlap);
 		}
 
-		if(!!Equipment)
+		if(!!equipment)
 		{
-			Equipment->OnEquipmentEquip.AddDynamic(DoAction, &UCDoAction::OnEquip);
-			Equipment->OnEquipmentBeginEquip.AddDynamic(DoAction, &UCDoAction::OnBeginEquip);
-			Equipment->OnEquipmentEndEquip.AddDynamic(DoAction, &UCDoAction::OnEndEquip);
-			Equipment->OnEquipmentUnequip.AddDynamic(DoAction, &UCDoAction::OnUnequip);
+			equipment->OnEquipmentEquip.AddDynamic(doAction, &UCDoAction::OnEquip);
+			equipment->OnEquipmentBeginEquip.AddDynamic(doAction, &UCDoAction::OnBeginEquip);
+			equipment->OnEquipmentEndEquip.AddDynamic(doAction, &UCDoAction::OnEndEquip);
+			equipment->OnEquipmentUnequip.AddDynamic(doAction, &UCDoAction::OnUnequip);
 		}
 	}
 
-	UCSubAction* SubAction = nullptr;
+	UCSubAction* subAction = nullptr;
 	if(!!SubActionClass)
 	{
-		SubAction = NewObject<UCSubAction>(this, SubActionClass);
-		SubAction->BeginPlay(InOwner, Attachment, DoAction);
+		subAction = NewObject<UCSubAction>(this, SubActionClass);
+		subAction->BeginPlay(InOwner, attachment, doAction);
 	}
 
+	/* Weapon Data 생성 */
 	*OutWeaponData = NewObject<UCWeaponData>();
-	(*OutWeaponData)->Attachment = Attachment;
-	(*OutWeaponData)->Equipment = Equipment;
-	(*OutWeaponData)->DoAction = DoAction;
-	(*OutWeaponData)->SubAction = SubAction;
+	(*OutWeaponData)->Attachment = attachment;
+	(*OutWeaponData)->Equipment = equipment;
+	(*OutWeaponData)->DoAction = doAction;
+	(*OutWeaponData)->SubAction = subAction;
 }
 
 #if WITH_EDITOR

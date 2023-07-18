@@ -18,8 +18,7 @@ private:
 
 private:
 	UPROPERTY(EditInstanceOnly, Category = "AI")
-		class ACPatrolPath* PatrolPath;
-		//TSoftObjectPtr<class ACPatrolPath> PatrolPath;
+		TSoftObjectPtr<class ACPatrolPath> PatrolPath;
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
@@ -40,8 +39,7 @@ public:
 	FORCEINLINE class UBehaviorTree* GetBehaviorTree() { return BehaviorTree; }
 	FORCEINLINE uint8 GetTeamID() { return TeamID; }
 
-	//FORCEINLINE class ACPatrolPath* GetPatrolPath() { return PatrolPath.Get(); }
-	FORCEINLINE class ACPatrolPath* GetPatrolPath() { return PatrolPath; }
+	FORCEINLINE class ACPatrolPath* GetPatrolPath() { return PatrolPath.Get(); }
 
 public:
 	ACEnemy_AI();
