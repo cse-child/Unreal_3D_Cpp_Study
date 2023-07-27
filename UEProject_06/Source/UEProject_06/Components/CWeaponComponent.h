@@ -78,7 +78,8 @@ private:
 	EWeaponType Type = EWeaponType::Max;
 
 private:
-	class UCWeaponData* Datas[(int32)EWeaponType::Max];
+	UPROPERTY()
+		class UCWeaponData* Datas[(int32)EWeaponType::Max];
 	
 };
 
