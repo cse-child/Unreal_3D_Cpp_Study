@@ -52,4 +52,8 @@ public:
 
 private:
 	void UpdateLabelRenderScale();
+
+protected:
+	void Hitted() override;
+	void End_Hitted() override;
 };

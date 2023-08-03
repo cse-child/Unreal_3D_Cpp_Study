@@ -71,3 +71,18 @@ void ACEnemy_AI::UpdateLabelRenderScale()
 	label->SetVisibility(ESlateVisibility::Visible);
 	label->SetRenderScale(FVector2D(sizeRate, sizeRate));
 }
+
+void ACEnemy_AI::Hitted()
+{
+	Super::Hitted();
+	CheckTrue(State->IsDeadMode());
+
+	Behavior->SetHittedMode();
+}
+
+void ACEnemy_AI::End_Hitted()
+{
+	Super::End_Hitted();
+
+	Behavior->SetWaitMode();
+}

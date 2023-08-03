@@ -16,6 +16,7 @@ class UEPROJECT_06_API UCEquipment : public UObject
 	GENERATED_BODY()
 
 public:
+	FORCEINLINE const bool GetBeginEquip() { return bBeginEquip; }
 	FORCEINLINE const bool* GetEquipped() { return &bEquipped; }
 
 public:

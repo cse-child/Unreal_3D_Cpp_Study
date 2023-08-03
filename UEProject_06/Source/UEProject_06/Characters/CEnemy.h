@@ -43,11 +43,11 @@ private:
 	UFUNCTION()
 		void RestoreColor();
 
-private:
-	void Hitted();
+protected:
+	virtual void Hitted();
 
 public:
-	void End_Hitted() override;
+	virtual void End_Hitted() override;
 
 private:
 	void Dead();

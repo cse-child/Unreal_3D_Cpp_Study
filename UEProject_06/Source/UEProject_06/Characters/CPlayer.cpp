@@ -128,7 +128,8 @@ void ACPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	//PlayerInputComponent->BindAction("SubAction", EInputEvent::IE_Pressed, Weapon, &UCWeaponComponent::SubAction_Pressed);
 	PlayerInputComponent->BindAction("SubAction", EInputEvent::IE_Pressed, this, &ACPlayer::OnRightButton);
-	PlayerInputComponent->BindAction("SubAction", EInputEvent::IE_Released, Weapon, &UCWeaponComponent::SubAction_Released);
+	//PlayerInputComponent->BindAction("SubAction", EInputEvent::IE_Released, Weapon, &UCWeaponComponent::SubAction_Released);
+	PlayerInputComponent->BindAction("SubAction", EInputEvent::IE_Released, this, &ACPlayer::OffRightBuffon);
 
 	PlayerInputComponent->BindAction("Fist", EInputEvent::IE_Pressed, Weapon, &UCWeaponComponent::SetFistMode);
 	PlayerInputComponent->BindAction("Sword", EInputEvent::IE_Pressed, Weapon, &UCWeaponComponent::SetSwordMode);
@@ -182,8 +183,19 @@ void ACPlayer::OnRightButton()
 		return;
 	}
 
+	if (Weapon->IsBowMode())
+		Zoom->SetComponentTickEnabled(false);
+
 	// Unarmed 모드가 아니라면 무기 별 SubAction 수행 (Skill)
 	Weapon->SubAction_Pressed();
+}
+
+void ACPlayer::OffRightBuffon()
+{
+	if (Weapon->IsBowMode())
+		Zoom->SetComponentTickEnabled(true);
+
+	Weapon->SubAction_Released();
 }
 
 void ACPlayer::Landed(const FHitResult& Hit)

@@ -79,6 +79,7 @@ public:
 
 private:
 	void OnRightButton();
+	void OffRightBuffon();
 
 public:
 	virtual void Landed(const FHitResult& Hit) override;
