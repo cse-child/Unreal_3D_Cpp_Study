@@ -12,6 +12,7 @@ class UEPROJECT_06_API UCDoAction : public UObject
 	GENERATED_BODY()
 
 public:
+	FORCEINLINE bool GetBeginAction() { return bBeginAction; }
 	FORCEINLINE bool GetInAction() { return bInAction; }
 
 public:

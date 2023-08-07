@@ -30,6 +30,9 @@ EBTNodeResult::Type UCBTTaskNode_Equip::ExecuteTask(UBehaviorTreeComponent& Owne
 	case EWeaponType::Sword: 
 		weapon->SetSwordMode();
 		break;
+	case EWeaponType::Bow:
+		weapon->SetBowMode();
+		break;
 	}
 	return EBTNodeResult::InProgress;
 }
