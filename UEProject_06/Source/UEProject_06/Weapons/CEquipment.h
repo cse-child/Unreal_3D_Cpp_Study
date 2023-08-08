@@ -10,7 +10,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FEquipmentBeginEquip);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FEquipmentEndEquip);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FEquipmentUnequip);
 
-UCLASS()
+UCLASS(Blueprintable)
 class UEPROJECT_06_API UCEquipment : public UObject
 {
 	GENERATED_BODY()
@@ -49,8 +49,11 @@ private:
 	class UCMovementComponent* Movement;
 	class UCStateComponent* State;
 
+protected:
+	UPROPERTY(BlueprintReadOnly)
+		class ACharacter* OwnerCharacter;
+
 private:
-	class ACharacter* OwnerCharacter;
 	FEquipmentData Data;
 
 private:

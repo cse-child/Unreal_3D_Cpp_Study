@@ -1,4 +1,6 @@
 #include "Weapons/SubActions/CSubAction_Aiming.h"
+
+#include "AIController.h"
 #include "Global.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/PlayerController.h"
@@ -49,13 +51,20 @@ void UCSubAction_Aiming::OnAiming(FVector Output)
 void UCSubAction_Aiming::Pressed()
 {
 	CheckTrue(State->IsSubActionMode());
+	
+	if(!!Owner->GetController<AAIController>())
+	{
+		Super::Pressed();
+
+		State->OnSubActionMode();
+
+		return;
+	}
+
 	CheckNull(SpringArm);
 	CheckNull(Camera);
 	CheckTrue(bAiming);
 
-	Super::Pressed();
-
-	State->OnSubActionMode();
 	bAiming = true;
 
 	OriginData.TargetArmLength = SpringArm->TargetArmLength;
@@ -74,13 +83,20 @@ void UCSubAction_Aiming::Pressed()
 void UCSubAction_Aiming::Released()
 {
 	CheckFalse(State->IsSubActionMode());
+
+	if (!!Owner->GetController<AAIController>())
+	{
+		Super::Released();
+
+		State->OffSubActionMode();
+
+		return;
+	}
+
 	CheckNull(SpringArm);
 	CheckNull(Camera);
 	CheckFalse(bAiming);
 
-	Super::Released();
-
-	State->OffSubActionMode();
 	bAiming = false;
 
 	SpringArm->TargetArmLength = OriginData.TargetArmLength;

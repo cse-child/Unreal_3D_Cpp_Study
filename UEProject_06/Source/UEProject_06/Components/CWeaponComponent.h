@@ -43,7 +43,10 @@ public:
 	class ACAttachment* GetAttachment();
 	class UCEquipment* GetEquipment();
 	class UCDoAction* GetDoAction();
-	class UCSubAction* GetSubAction();
+
+public:
+	UFUNCTION(BlueprintCallable)
+		class UCSubAction* GetSubAction();
 
 protected:
 	virtual void BeginPlay() override;
@@ -62,8 +65,12 @@ public:
 
 	void DoAction();
 
-	void SubAction_Pressed();
-	void SubAction_Released();
+public:
+	UFUNCTION(BlueprintCallable)
+		void SubAction_Pressed();
+
+	UFUNCTION(BlueprintCallable)
+		void SubAction_Released();
 
 private:
 	void SetMode(EWeaponType InType);
