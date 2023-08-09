@@ -40,9 +40,6 @@ private:
 		float AimingSpeed = 200;
 
 public:
-	FORCEINLINE bool GetAiming() { return bAiming; }
-
-public:
 	UCSubAction_Aiming();
 
 public:
@@ -62,9 +59,6 @@ private:
 private:
 	class USpringArmComponent* SpringArm;
 	class UCameraComponent* Camera;
-
-private:
-	bool bAiming;
 
 private:
 	FAimData OriginData;

@@ -29,7 +29,8 @@ void UCSubAction_Aiming::BeginPlay(ACharacter* InOwner, ACAttachment* InAttachme
 	Timeline.SetPlayRate(AimingSpeed);
 
 	ACAttachment_Bow* bow = Cast<ACAttachment_Bow>(InAttachment);
-	Bending = bow->GetBend();
+	if(!!bow)
+		Bending = bow->GetBend();
 	
 }
 
@@ -38,7 +39,7 @@ void UCSubAction_Aiming::Tick_Implementation(float InDeltaTime)
 	Super::Tick_Implementation(InDeltaTime);
 
 	Timeline.TickTimeline(InDeltaTime);
-	*Bending += InDeltaTime * 0.1f;
+	//*Bending += InDeltaTime * 0.1f;
 	//CLog::Print(*Bending, 1);
 }
 
@@ -51,11 +52,11 @@ void UCSubAction_Aiming::OnAiming(FVector Output)
 void UCSubAction_Aiming::Pressed()
 {
 	CheckTrue(State->IsSubActionMode());
-	
+
+	/* EnemyÀÇ Bow Aiming */
 	if(!!Owner->GetController<AAIController>())
 	{
 		Super::Pressed();
-
 		State->OnSubActionMode();
 
 		return;
@@ -63,9 +64,10 @@ void UCSubAction_Aiming::Pressed()
 
 	CheckNull(SpringArm);
 	CheckNull(Camera);
-	CheckTrue(bAiming);
 
-	bAiming = true;
+	Super::Pressed();
+
+	State->OnSubActionMode();
 
 	OriginData.TargetArmLength = SpringArm->TargetArmLength;
 	OriginData.SocketOffset = SpringArm->SocketOffset;
@@ -87,7 +89,6 @@ void UCSubAction_Aiming::Released()
 	if (!!Owner->GetController<AAIController>())
 	{
 		Super::Released();
-
 		State->OffSubActionMode();
 
 		return;
@@ -95,9 +96,10 @@ void UCSubAction_Aiming::Released()
 
 	CheckNull(SpringArm);
 	CheckNull(Camera);
-	CheckFalse(bAiming);
 
-	bAiming = false;
+	Super::Released();
+
+	State->OffSubActionMode();
 
 	SpringArm->TargetArmLength = OriginData.TargetArmLength;
 	SpringArm->SocketOffset = OriginData.SocketOffset;

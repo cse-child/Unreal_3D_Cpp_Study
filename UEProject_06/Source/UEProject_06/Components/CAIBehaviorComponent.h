@@ -30,6 +30,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Key")
 		FName PatrolLocationKey = "Patrol_Location";
 
+	UPROPERTY(EditAnywhere, Category = "Key")
+		FName AvoidLocationKey = "Avoid_Location";
+
 private:
 	EAIStateType GetType();
 
@@ -57,6 +60,8 @@ public:
 
 	void SetPatrolLocation(const FVector& InLocation);
 	FVector GetPatrolLocation();
+
+	FVector GetAvoidLocation();
 
 public:
 	void SetWaitMode();

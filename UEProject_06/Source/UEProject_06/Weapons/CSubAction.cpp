@@ -19,3 +19,13 @@ void UCSubAction::BeginPlay(ACharacter* InOwner, ACAttachment* InAttachment, UCD
 	State = CHelpers::GetComponent<UCStateComponent>(Owner);
 	Movement = CHelpers::GetComponent<UCMovementComponent>(Owner);
 }
+
+void UCSubAction::Pressed()
+{
+	bInAction = true;
+}
+
+void UCSubAction::Released()
+{
+	bInAction = false;
+}

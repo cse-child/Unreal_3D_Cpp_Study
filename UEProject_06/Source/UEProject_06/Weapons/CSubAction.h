@@ -11,14 +11,17 @@ class UEPROJECT_06_API UCSubAction : public UObject
 	GENERATED_BODY()
 
 public:
+	FORCEINLINE bool GetInAction() { return bInAction; }
+
+public:
 	UCSubAction();
 
 public:
 	virtual void BeginPlay(class ACharacter* InOwner, class ACAttachment* InAttachment, class UCDoAction* InDoAction);
 
 public:
-	virtual void Pressed() {}
-	virtual void Released() {}
+	virtual void Pressed();
+	virtual void Released();
 
 public:
 	UFUNCTION(BlueprintNativeEvent)
@@ -40,6 +43,8 @@ protected:
 
 	class UCStateComponent* State;
 	class UCMovementComponent* Movement;
+
+	bool bInAction;
 };
 
 

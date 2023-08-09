@@ -37,26 +37,22 @@ void UCAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 	bFalling = OwnerCharacter->GetCharacterMovement()->IsFalling();
 
-	if (!!Weapon)
+	CheckNull(Weapon);
+	if (!!Weapon->GetSubAction())
 	{
-		UCSubAction_Aiming* aiming = Cast<UCSubAction_Aiming>(Weapon->GetSubAction());
-
-		if (!!aiming)
-			bAim_Bow = aiming->GetAiming();
+		bBow_Aiming = true;
+		bBow_Aiming &= WeaponType == EWeaponType::Bow;
+		bBow_Aiming &= Weapon->GetSubAction()->GetInAction();
 	}
+
+	/* 수업이니까 Unarmed 모드에만 IK가 적용되도록 제한함 */
+	CheckFalse(Weapon->IsUnarmedMode());
 
 	/* Parkour 도중에는 IK를 적용되지 않도록 함 */
 	UCParkourComponent* parkour = CHelpers::GetComponent<UCParkourComponent>(OwnerCharacter);
 	UCFeetComponent* feet = CHelpers::GetComponent<UCFeetComponent>(OwnerCharacter);
 
 	bFeet = false;
-
-	CheckNull(Weapon);
-
-	/* 수업이니까 Unarmed 모드에만 IK가 적용되도록 제한함 */
-	if (Weapon->IsUnarmedMode() == false)
-		return;
-
 	if(!!parkour && !!feet)
 	{
 		bFeet = parkour->IsExecuting() == false;

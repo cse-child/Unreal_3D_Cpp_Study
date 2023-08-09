@@ -38,6 +38,11 @@ FVector UCAIBehaviorComponent::GetPatrolLocation()
 	return Blackboard->GetValueAsVector(PatrolLocationKey);
 }
 
+FVector UCAIBehaviorComponent::GetAvoidLocation()
+{
+	return Blackboard->GetValueAsVector(AvoidLocationKey);
+}
+
 bool UCAIBehaviorComponent::IsWaitMode()
 {
 	return GetType() == EAIStateType::Wait;

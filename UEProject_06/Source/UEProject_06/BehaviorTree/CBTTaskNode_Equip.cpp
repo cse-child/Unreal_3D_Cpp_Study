@@ -33,6 +33,9 @@ EBTNodeResult::Type UCBTTaskNode_Equip::ExecuteTask(UBehaviorTreeComponent& Owne
 	case EWeaponType::Bow:
 		weapon->SetBowMode();
 		break;
+	case EWeaponType::Warp:
+		weapon->SetWarpMode();
+		break;
 	}
 	return EBTNodeResult::InProgress;
 }
@@ -73,3 +76,4 @@ EBTNodeResult::Type UCBTTaskNode_Equip::AbortTask(UBehaviorTreeComponent& OwnerC
 
 	return EBTNodeResult::Aborted;
 }
+

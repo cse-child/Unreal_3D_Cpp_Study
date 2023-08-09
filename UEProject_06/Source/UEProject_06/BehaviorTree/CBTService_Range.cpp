@@ -24,6 +24,7 @@ void UCBTService_Range::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeM
 	UCStateComponent* state = CHelpers::GetComponent<UCStateComponent>(ai);
 	UCAIBehaviorComponent* aiState = CHelpers::GetComponent<UCAIBehaviorComponent>(ai);
 
+	/* Avoid 범위 출력 */
 	if(bDrawDebug)
 	{
 		FVector start = ai->GetActorLocation();
@@ -32,7 +33,7 @@ void UCBTService_Range::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeM
 		FVector end = start;
 		end.Z += 50;
 
-		DrawDebugCylinder(ai->GetWorld(), start, end, AvoidRange, 5, FColor::Red, true, Interval);
+		DrawDebugCylinder(ai->GetWorld(), start, end, AvoidRange, 5, FColor::Red, false, Interval);
 	}
 
 	if (state->IsHittedMode())

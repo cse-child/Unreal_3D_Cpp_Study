@@ -19,3 +19,4 @@ void UCEnvQueryContext_Target::ProvideContext(FEnvQueryInstance& QueryInstance, 
 	UEnvQueryItemType_Actor::SetContextHelper(ContextData, target);
 
 }
+

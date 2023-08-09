@@ -25,7 +25,7 @@ protected:
 		bool bFalling;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Bow")
-		bool bAim_Bow;
+		bool bBow_Aiming;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "InverseKinemetics")
 		bool bFeet;

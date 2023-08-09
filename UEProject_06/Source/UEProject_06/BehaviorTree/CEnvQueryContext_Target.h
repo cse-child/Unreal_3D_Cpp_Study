@@ -13,3 +13,4 @@ class UEPROJECT_06_API UCEnvQueryContext_Target : public UEnvQueryContext
 private:
 	void ProvideContext(FEnvQueryInstance& QueryInstance, FEnvQueryContextData& ContextData) const override;
 };
+
